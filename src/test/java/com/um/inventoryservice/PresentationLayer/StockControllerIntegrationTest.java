@@ -78,9 +78,13 @@ class StockControllerIntegrationTest {
                     assertThat(dto.getPrice()).isEqualTo(stockItem.getPrice());
                 });
 
-
     }
 
+    @Test
+    void toStringBuilders() {
+        System.out.println(StockItem.builder());
+        System.out.println(StockItemDTO.builder());
+    }
 
     private StockItem buildStockItem() {
         return StockItem.builder()
@@ -88,6 +92,15 @@ class StockControllerIntegrationTest {
                 .supplierId(1005)
                 .salesQuantity(23)
                 .price(75.99)
+                .build();
+    }
+
+    private StockItemDTO buildStockItemDTO() {
+        return StockItemDTO.builder()
+                .description("DTO test plumbing item")
+                .supplierId(2005)
+                .salesQuantity(53)
+                .price(25.99)
                 .build();
     }
 
