@@ -90,12 +90,4 @@ class StockControllerIntegrationTest {
                 .build();
     }
 
-    private StockItemDTO buildStockItemDTO() {
-        return StockItemDTO.builder()
-                .description("Still trying to figure things out")
-                .supplierId(2005)
-                .salesQuantity(53)
-                .price(25.99)
-                .build();
-    }
 }

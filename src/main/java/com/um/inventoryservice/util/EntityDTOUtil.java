@@ -1,5 +1,4 @@
 package com.um.inventoryservice.util;
-package com.um.inventoryservice.util;
 
 import com.um.inventoryservice.DataLayer.StockItem;
 import com.um.inventoryservice.DataLayer.StockItemDTO;
