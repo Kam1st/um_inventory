@@ -1,9 +1,9 @@
 server:
 
-  logging:
-    level:
-      root: INFO
-      com.um: DEBUG
+logging:
+  level:
+    root: INFO
+    com.um.inventoryservice: DEBUG
 
 spring:
   config:
