@@ -92,7 +92,7 @@ class StockControllerIntegrationTest {
 
     private StockItemDTO buildStockItemDTO() {
         return StockItemDTO.builder()
-                .description("Want to see if this works")
+                .description("Still trying to figure things out")
                 .supplierId(2005)
                 .salesQuantity(53)
                 .price(25.99)
