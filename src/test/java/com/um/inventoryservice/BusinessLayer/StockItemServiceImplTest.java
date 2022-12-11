@@ -39,6 +39,7 @@ class StockItemServiceImplTest {
         StepVerifier
                 .create(stockItemDTO)
                 .consumeNextWith(foundStockItem ->{
+                    assertEquals(stockItem.getStockItemId(), foundStockItem.getStockItemId());
                     assertEquals(stockItem.getDescription(), foundStockItem.getDescription());
                     assertEquals(stockItem.getSupplierId(), foundStockItem.getSupplierId());
                     assertEquals(stockItem.getSalesQuantity(), foundStockItem.getSalesQuantity());

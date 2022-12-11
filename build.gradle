@@ -43,7 +43,7 @@ jacocoTestReport {
 	afterEvaluate {
 		classDirectories.setFrom(files(classDirectories.files.collect {
 			fileTree(dir: it, exclude: [
-					"com/inventory-service/**/InventoryServiceApplication.class"
+					"com/inventoryservice/**/InventoryServiceApplication.class"
 			])
 		}))
 	}

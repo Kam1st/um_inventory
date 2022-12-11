@@ -46,6 +46,7 @@ class StockControllerIntegrationTest {
                 .expectStatus().isOk()
                 .expectHeader().contentType(MediaType.APPLICATION_JSON)
                 .expectBody()
+                .jsonPath("$[0].stockItemId").isEqualTo(stockItem.getStockItemId())
                 .jsonPath("$[0].description").isEqualTo(stockItem.getDescription())
                 .jsonPath("$[0].supplierId").isEqualTo(stockItem.getSupplierId())
                 .jsonPath("$[0].salesQuantity").isEqualTo(stockItem.getSalesQuantity())

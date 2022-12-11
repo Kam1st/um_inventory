@@ -34,6 +34,7 @@ class StockItemRepositoryTest {
 
         StepVerifier.create(composite)
                 .consumeNextWith(foundStockItem -> {
+                    assertEquals(stockItem.getStockItemId(), foundStockItem.getStockItemId());
                     assertEquals(stockItem.getDescription(), foundStockItem.getDescription());
                     assertEquals(stockItem.getSupplierId(), foundStockItem.getSupplierId());
                     assertEquals(stockItem.getSalesQuantity(), foundStockItem.getSalesQuantity());
@@ -51,6 +52,7 @@ class StockItemRepositoryTest {
         StepVerifier
                 .create(setup)
                 .consumeNextWith(foundStockItem -> {
+                    assertEquals(stockItem.getStockItemId(), foundStockItem.getStockItemId());
                     assertEquals(stockItem.getDescription(), foundStockItem.getDescription());
                     assertEquals(stockItem.getSupplierId(), foundStockItem.getSupplierId());
                     assertEquals(stockItem.getSalesQuantity(), foundStockItem.getSalesQuantity());
