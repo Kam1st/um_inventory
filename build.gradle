@@ -4,11 +4,16 @@ plugins {
 	id 'io.spring.dependency-management' version '1.1.0'
 	id 'io.freefair.lombok' version '6.0.0-m2'
 	id 'jacoco'
+	id 'io.qameta.allure' version '2.9.3'
 }
 
 group = 'com.um'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
+
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
+}
 
 configurations {
 	compileOnly {
@@ -18,6 +23,10 @@ configurations {
 
 repositories {
 	mavenCentral()
+}
+ext {
+	allureVersion = '2.16.1'
+	junitVersion = '5.8.1'
 }
 
 dependencies {
@@ -29,11 +38,30 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
 	testImplementation 'io.projectreactor:reactor-test'
+
+	testImplementation('com.codeborne:selenide:5.25.0')
+	testImplementation("io.qameta.allure:allure-selenide:${allureVersion}")
+	testImplementation('org.assertj:assertj-core:3.21.0')
+	testImplementation('com.google.truth:truth:1.1.3')
+	testImplementation('org.hamcrest:hamcrest:2.2')
+	testImplementation('org.slf4j:slf4j-simple:1.7.30')
+
+	testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+	testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+allure {
+	autoconfigure = true
+	version = "${allureVersion}"
+	useJUnit5 {
+		version = "${allureVersion}"
+	}
+}
+
 jacoco {
 	toolVersion = "0.8.8"
 }
