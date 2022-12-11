@@ -14,27 +14,23 @@ public class EntityDTOUtil {
 
     public static StockItem toEntity(StockItemDTO dto) {
         StockItem stockItem = new StockItem();
-//        stockItem.setStockItemId(generateStockId());
+        stockItem.setStockItemId(generateStockId());
         stockItem.setDescription(dto.getDescription());
         stockItem.setPrice(dto.getPrice());
         stockItem.setSupplierId(dto.getSupplierId());
         stockItem.setSalesQuantity(dto.getSalesQuantity());
         return stockItem;
     }
-//
-//    public static String generateStockId() {
-//        Random random = new Random();
-//        int number = random.nextInt(99999);
-//        return "22" + (String.format("%05d", number));
-//    }
+
+    public static String generateStockId() {
+        Random random = new Random();
+        int number = random.nextInt(99999);
+        return "22" + (String.format("%05d", number));
+    }
 
     public static StockItemDTO toDTO(StockItem stockItem) {
         StockItemDTO dto = new StockItemDTO();
-        stockItem.setStockItemId(dto.getStockItemId());
-        stockItem.setDescription(dto.getDescription());
-        stockItem.setPrice(dto.getPrice());
-        stockItem.setSupplierId(dto.getSupplierId());
-        stockItem.setSalesQuantity(dto.getSalesQuantity());
+        BeanUtils.copyProperties(stockItem, dto);
         return dto;
     }
 }
