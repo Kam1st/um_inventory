@@ -22,7 +22,7 @@ public class StockItemServiceImpl implements StockItemService{
 
     @Override
     public Mono<StockItemDTO> getStockItemById(String stockItemId) {
-        return stockItemRepository.findStockItemById(stockItemId)
+        return stockItemRepository.findStockItemByStockItemId(stockItemId)
                 .map(EntityDTOUtil::toDTO);
     }
     @Override
