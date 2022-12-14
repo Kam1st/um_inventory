@@ -21,6 +21,11 @@ public class StockItemServiceImpl implements StockItemService{
     }
 
     @Override
+    public Mono<StockItemDTO> getStockItemById(String stockItemId) {
+        return stockItemRepository.findStockItemById(stockItemId)
+                .map(EntityDTOUtil::toDTO);
+    }
+    @Override
     public Mono<StockItemDTO> insertStock(Mono<StockItemDTO> stockItemDTOMono) {
         return stockItemDTOMono
                 .map(EntityDTOUtil::toEntity)
