@@ -1,8 +1,6 @@
 package com.um.inventoryservice.PresentationLayer;
 
-import com.um.inventoryservice.DataLayer.StockItem;
-import com.um.inventoryservice.DataLayer.StockItemDTO;
-import com.um.inventoryservice.DataLayer.StockItemRepository;
+import com.um.inventoryservice.DataLayer.*;
 import org.junit.jupiter.api.Test;
 import org.reactivestreams.Publisher;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +21,16 @@ class StockControllerIntegrationTest {
 
     private final StockItem stockItem = buildStockItem();
 
+    private final InventoryItem inventoryItem = buildInventoryItem();
+
     @Autowired
     private WebTestClient webTestClient;
 
     @Autowired
     private StockItemRepository stockItemRepository;
+
+    @Autowired
+    private InventoryItemRepository inventoryItemRepository;
 
     @Test
     void getAllStockItems() {
@@ -81,6 +84,31 @@ class StockControllerIntegrationTest {
     }
 
     @Test
+    void insertInventoryItem() {
+        Publisher<Void> setup = inventoryItemRepository.deleteAll();
+
+        StepVerifier
+                .create(setup)
+                .expectNextCount(0)
+                .verifyComplete();
+
+        webTestClient
+                .post()
+                .uri("/stocks")
+                .body(Mono.just(inventoryItem), InventoryItem.class)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON)
+                .expectBody(InventoryItemDTO.class)
+                .value((dto) -> {
+                    assertThat(dto.getDescription()).isEqualTo(stockItem.getDescription());
+                    assertThat(dto.getSupplierId()).isEqualTo(stockItem.getSupplierId());
+                });
+
+    }
+
+    @Test
     void toStringBuilders() {
         System.out.println(StockItem.builder());
         System.out.println(StockItemDTO.builder());
@@ -103,5 +131,10 @@ class StockControllerIntegrationTest {
                 .price(25.99)
                 .build();
     }
+
+//    private InventoryItem buildInventoryItem() {
+//        return InventoryItem.builder()
+//                .
+//    }
 
 }
