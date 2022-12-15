@@ -33,6 +33,17 @@ public class StockController {
     public Mono<StockItemDTO> insertStock(@RequestBody Mono<StockItemDTO> stockItemDTOMono) {
         return stockItemService.insertStock(stockItemDTOMono);
     }
-    
+
+    @PutMapping("{stockItemId}")
+    public Mono<ResponseEntity<StockItemDTO>> updateStockItemById(@PathVariable String stockItemId, @RequestBody Mono<StockItemDTO> stockItemDTOMono) {
+        return stockItemService.updateStockItem(stockItemId, stockItemDTOMono)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("{stockItemId}")
+    public Mono<Void> deleteStockItem(@PathVariable String stockItemId) {
+        return stockItemService.deleteStockItemById(stockItemId);
+    }
 
 }

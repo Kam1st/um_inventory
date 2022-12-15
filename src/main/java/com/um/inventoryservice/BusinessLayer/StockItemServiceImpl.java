@@ -33,4 +33,22 @@ public class StockItemServiceImpl implements StockItemService{
                 .flatMap((stockItemRepository::save))
                 .map(EntityDTOUtil::toDTO);
     }
+
+    @Override
+    public Mono<StockItemDTO> updateStockItem(String stockItemId, Mono<StockItemDTO> stockItemDTOMono){
+        return stockItemRepository.findStockItemByStockItemId(stockItemId)
+                .flatMap(p -> stockItemDTOMono
+                        .map(EntityDTOUtil::toEntity)
+                        .doOnNext(e -> e.setStockItemId(p.getStockItemId()))
+                        .doOnNext(e -> e.setId(p.getId()))
+                )
+                .flatMap(stockItemRepository::save)
+                .map(EntityDTOUtil::toDTO);
+    }
+
+    @Override
+    public Mono<Void> deleteStockItemById(String stockItemId) {
+        return stockItemRepository.deleteStockItemByStockItemId(stockItemId);
+    }
+
 }

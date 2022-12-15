@@ -19,9 +19,14 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @AutoConfigureWebTestClient
 class StockControllerIntegrationTest {
 
-    private final StockItem stockItem = buildStockItem();
+    StockItem stockItem = buildStockItem();
 
-    private final InventoryItem inventoryItem = buildInventoryItem();
+    StockItem stockItem2 = buildStockItem2();
+    String STOCK_ID = stockItem.getStockItemId();
+
+    StockItemDTO stockItemDTO = buildStockItemDTO();
+
+//    private final InventoryItem inventoryItem = buildInventoryItem();
 
     @Autowired
     private WebTestClient webTestClient;
@@ -92,20 +97,78 @@ class StockControllerIntegrationTest {
                 .expectNextCount(0)
                 .verifyComplete();
 
+//        webTestClient
+//                .post()
+//                .uri("/stocks")
+//                .body(Mono.just(inventoryItem), InventoryItem.class)
+
+
+    }
+
+    void getStockItemById() {
+        Publisher<StockItem> setup = stockItemRepository.deleteAll().thenMany(stockItemRepository.save(stockItem));
+
+        StepVerifier
+                .create(setup)
+                .expectNextCount(1)
+                .verifyComplete();
+
         webTestClient
-                .post()
-                .uri("/stocks")
-                .body(Mono.just(inventoryItem), InventoryItem.class)
+                .get()
+                .uri("/stocks/" + STOCK_ID)
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
                 .expectStatus().isOk()
                 .expectHeader().contentType(MediaType.APPLICATION_JSON)
-                .expectBody(InventoryItemDTO.class)
-                .value((dto) -> {
-                    assertThat(dto.getDescription()).isEqualTo(stockItem.getDescription());
-                    assertThat(dto.getSupplierId()).isEqualTo(stockItem.getSupplierId());
-                });
+                .expectBody()
+                .jsonPath("$.stockItemId").isEqualTo(stockItem.getStockItemId())
+                .jsonPath("$.description").isEqualTo(stockItem.getDescription())
+                .jsonPath("$.salesQuantity").isEqualTo(stockItem.getSalesQuantity())
+                .jsonPath("$.price").isEqualTo(stockItem.getPrice())
+                .jsonPath("$.supplierId").isEqualTo(stockItem.getSupplierId());
+    }
 
+    @Test
+    void updateStockItem() {
+        Publisher<StockItem> setup = stockItemRepository.deleteAll().thenMany(stockItemRepository.save(stockItem2));
+        StepVerifier
+                .create(setup)
+                .expectNextCount(1)
+                .verifyComplete();
+
+        webTestClient
+                .put()
+                .uri("/stocks/" + STOCK_ID)
+                .body(Mono.just(stockItemDTO), StockItemDTO.class)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON)
+                .expectBody()
+                .jsonPath("$.stockItemId").isEqualTo(stockItemDTO.getStockItemId())
+                .jsonPath("$.description").isEqualTo(stockItemDTO.getDescription())
+                .jsonPath("$.salesQuantity").isEqualTo(stockItemDTO.getSalesQuantity())
+                .jsonPath("$.price").isEqualTo(stockItemDTO.getPrice())
+                .jsonPath("$.supplierId").isEqualTo(stockItemDTO.getSupplierId());
+
+    }
+
+    @Test
+    void deleteStockItem() {
+        Publisher<StockItem> setup = stockItemRepository.deleteAll().thenMany(stockItemRepository.save(stockItem));
+
+        StepVerifier
+                .create(setup)
+                .expectNextCount(1)
+                .verifyComplete();
+
+        webTestClient
+                .delete()
+                .uri("/stocks/" + STOCK_ID)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody();
     }
 
     @Test
@@ -116,7 +179,18 @@ class StockControllerIntegrationTest {
 
     private StockItem buildStockItem() {
         return StockItem.builder()
+                .stockItemId("297445493")
                 .description("Test plumbing item")
+                .supplierId(1005)
+                .salesQuantity(23)
+                .price(75.99)
+                .build();
+    }
+
+    private StockItem buildStockItem2() {
+        return StockItem.builder()
+                .stockItemId("297445493")
+                .description("Test another item")
                 .supplierId(1005)
                 .salesQuantity(23)
                 .price(75.99)
@@ -125,6 +199,7 @@ class StockControllerIntegrationTest {
 
     private StockItemDTO buildStockItemDTO() {
         return StockItemDTO.builder()
+                .stockItemId("297445493")
                 .description("DTO test plumbing item")
                 .supplierId(2005)
                 .salesQuantity(53)

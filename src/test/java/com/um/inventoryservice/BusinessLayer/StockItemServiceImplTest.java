@@ -86,6 +86,29 @@ class StockItemServiceImplTest {
                 .verifyComplete();
     }
 
+    @Test
+    void updateStockItem() {
+        when(stockItemRepository.save(any(StockItem.class))).thenReturn(Mono.just(stockItem));
+
+        when(stockItemRepository.findStockItemByStockItemId(anyString())).thenReturn(Mono.just(stockItem));
+        stockItemService.updateStockItem(STOCK_ID, (Mono.just(stockItemDTO)))
+                .map(stockItemDTO1 -> {
+                    assertEquals(stockItemDTO1.getStockItemId(), stockItemDTO.getStockItemId());
+                    assertEquals(stockItemDTO1.getDescription(), stockItemDTO.getDescription());
+                    assertEquals(stockItemDTO1.getSupplierId(), stockItemDTO.getSupplierId());
+                    assertEquals(stockItemDTO1.getSalesQuantity(), stockItemDTO.getSalesQuantity());
+                    assertEquals(stockItemDTO1.getPrice(), stockItemDTO.getPrice());
+                    return stockItemDTO1;
+                });
+    }
+
+    @Test
+    void deleteStockItem() {
+        stockItemService.deleteStockItemById(STOCK_ID);
+        verify(stockItemRepository, times(1)).deleteStockItemByStockItemId(STOCK_ID);
+    }
+
+
     private StockItem buildStockItem() {
         return StockItem.builder()
                 .stockItemId("297445493")
