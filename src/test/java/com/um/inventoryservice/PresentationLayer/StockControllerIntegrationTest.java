@@ -110,7 +110,7 @@ class StockControllerIntegrationTest {
     }
 
     @Test
-    void updateVet() {
+    void updateStockItem() {
         Publisher<StockItem> setup = stockItemRepository.deleteAll().thenMany(stockItemRepository.save(stockItem2));
 
         StepVerifier
