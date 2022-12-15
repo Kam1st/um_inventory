@@ -8,4 +8,5 @@ public interface StockItemService {
     Flux<StockItemDTO> getAll();
     Mono<StockItemDTO> insertStock(Mono<StockItemDTO> stockItemMono);
     Mono<StockItemDTO> getStockItemById(String stockItemId);
+    Mono<StockItemDTO> updateStockItem(String stockItemId, Mono<StockItemDTO> stockItemDTOMono);
 }
