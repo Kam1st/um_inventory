@@ -41,4 +41,9 @@ public class StockController {
                 .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
+    @DeleteMapping("{stockItemId}")
+    public Mono<Void> deleteStockItem(@PathVariable String stockItemId) {
+        return stockItemService.deleteStockItemById(stockItemId);
+    }
+
 }
