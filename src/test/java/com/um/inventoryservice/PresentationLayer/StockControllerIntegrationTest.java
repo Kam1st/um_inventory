@@ -112,7 +112,6 @@ class StockControllerIntegrationTest {
     @Test
     void updateStockItem() {
         Publisher<StockItem> setup = stockItemRepository.deleteAll().thenMany(stockItemRepository.save(stockItem2));
-
         StepVerifier
                 .create(setup)
                 .expectNextCount(1)
