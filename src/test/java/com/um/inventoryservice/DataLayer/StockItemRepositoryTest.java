@@ -94,6 +94,23 @@ class StockItemRepositoryTest {
                 .verifyComplete();
     }
 
+    @Test
+    public void deleteStockItemById() {
+
+        Publisher<StockItem> setup = stockItemRepository.deleteAll().thenMany(stockItemRepository.save(buildStockItem()));
+        StepVerifier
+                .create(setup)
+                .consumeNextWith(foundStockItem -> {
+                    assertEquals(stockItem.getStockItemId(), foundStockItem.getStockItemId());
+                    assertEquals(stockItem.getDescription(), foundStockItem.getDescription());
+                    assertEquals(stockItem.getSupplierId(), foundStockItem.getSupplierId());
+                    assertEquals(stockItem.getSalesQuantity(), foundStockItem.getSalesQuantity());
+                    assertEquals(stockItem.getPrice(), foundStockItem.getPrice());
+                })
+                .then(this::deleteStockItemById)
+                .verifyComplete();
+    }
+
     private StockItem buildStockItem() {
         return StockItem.builder()
                 .stockItemId("297445493")

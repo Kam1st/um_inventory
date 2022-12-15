@@ -135,6 +135,23 @@ class StockControllerIntegrationTest {
     }
 
     @Test
+    void deleteStockItem() {
+        Publisher<StockItem> setup = stockItemRepository.deleteAll().thenMany(stockItemRepository.save(stockItem));
+
+        StepVerifier
+                .create(setup)
+                .expectNextCount(1)
+                .verifyComplete();
+
+        webTestClient
+                .delete()
+                .uri("/stocks/" + STOCK_ID)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody();
+    }
+    @Test
     void toStringBuilders() {
         System.out.println(StockItem.builder());
         System.out.println(StockItemDTO.builder());
