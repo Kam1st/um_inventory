@@ -4,8 +4,10 @@ import com.um.inventoryservice.DataLayer.InventoryItemDTO;
 import com.um.inventoryservice.DataLayer.InventoryItemRepository;
 import com.um.inventoryservice.util.EntityDTOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
+@Service
 public class InventoryItemServiceImpl implements InventoryItemService{
 
     @Autowired
