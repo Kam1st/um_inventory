@@ -46,9 +46,4 @@ public class StockItemServiceImpl implements StockItemService{
                 .map(EntityDTOUtil::toDTO);
     }
 
-    @Override
-    public Mono<Void> deleteStockItemById(String stockItemId) {
-        return stockItemRepository.deleteStockItemByStockItemId(stockItemId);
-    }
-
 }

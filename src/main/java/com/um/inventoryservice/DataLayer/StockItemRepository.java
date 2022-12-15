@@ -7,5 +7,4 @@ import reactor.core.publisher.Mono;
 @Repository
 public interface StockItemRepository extends ReactiveMongoRepository<StockItem, String> {
     Mono<StockItem> findStockItemByStockItemId(String stockItemId);
-    Mono<Void> deleteStockItemByStockItemId(String stockItemId);
 }
