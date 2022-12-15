@@ -33,4 +33,5 @@ public class StockController {
     public Mono<StockItemDTO> insertStock(@RequestBody Mono<StockItemDTO> stockItemDTOMono) {
         return stockItemService.insertStock(stockItemDTOMono);
     }
+    
 }
