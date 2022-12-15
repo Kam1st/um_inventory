@@ -102,6 +102,13 @@ class StockItemServiceImplTest {
                 });
     }
 
+    @Test
+    void deleteStockItem() {
+        stockItemService.deleteStockItemById(STOCK_ID);
+        verify(stockItemRepository, times(1)).deleteStockItemByStockItemId(STOCK_ID);
+    }
+
+
     private StockItem buildStockItem() {
         return StockItem.builder()
                 .stockItemId("297445493")
