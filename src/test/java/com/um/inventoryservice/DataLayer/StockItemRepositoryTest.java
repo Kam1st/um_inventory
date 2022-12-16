@@ -16,6 +16,9 @@ class StockItemRepositoryTest {
     @Autowired
     StockItemRepository stockItemRepository;
 
+    @Autowired
+    InventoryItemRepository inventoryItemRepository;
+
     StockItem stockItem = buildStockItem();
 
     String STOCK_ID = stockItem.getStockItemId();
@@ -111,6 +114,21 @@ class StockItemRepositoryTest {
                 .verifyComplete();
     }
 
+    @Test
+    public void insertInventoryItem (){
+        InventoryItem inventoryItem = buildInventoryItem();
+
+        Publisher<InventoryItem> setup = inventoryItemRepository.deleteAll().thenMany(inventoryItemRepository.save(inventoryItem));
+        StepVerifier
+                .create(setup)
+                .consumeNextWith(foundItem -> {
+                    assertEquals(inventoryItem.getInventoryItemId(), foundItem.getInventoryItemId());
+                    assertEquals(inventoryItem.getStockItemId(), foundItem.getStockItemId());
+                    assertEquals(inventoryItem.getQuantityInStock(), foundItem.getQuantityInStock());
+                })
+                .verifyComplete();
+    }
+
     private StockItem buildStockItem() {
         return StockItem.builder()
                 .stockItemId("297445493")
@@ -128,6 +146,22 @@ class StockItemRepositoryTest {
                 .supplierId(2005)
                 .salesQuantity(53)
                 .price(25.99)
+                .build();
+    }
+
+    private InventoryItem buildInventoryItem() {
+        return InventoryItem.builder()
+                .inventoryItemId("1176543")
+                .stockItemId("2212345")
+                .quantityInStock(265)
+                .build();
+    }
+
+    private InventoryItemDTO buildInventoryItemDTO() {
+        return InventoryItemDTO.builder()
+                .inventoryItemId("1123456")
+                .stockItemId("2213579")
+                .quantityInStock(75)
                 .build();
     }
 }

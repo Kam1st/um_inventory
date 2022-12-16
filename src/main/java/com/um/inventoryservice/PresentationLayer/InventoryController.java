@@ -5,6 +5,7 @@ import com.um.inventoryservice.DataLayer.InventoryItem;
 import com.um.inventoryservice.DataLayer.InventoryItemDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
@@ -17,7 +18,7 @@ public class InventoryController {
     InventoryItemService inventoryItemService;
 
     @PostMapping
-    public Mono<InventoryItemDTO> insertInventoryItem(Mono<InventoryItemDTO> inventoryItemDTO) {
+    public Mono<InventoryItemDTO> insertInventoryItem(@RequestBody Mono<InventoryItemDTO> inventoryItemDTO) {
         return inventoryItemService.insertInventoryItem(inventoryItemDTO);
     }
 }
