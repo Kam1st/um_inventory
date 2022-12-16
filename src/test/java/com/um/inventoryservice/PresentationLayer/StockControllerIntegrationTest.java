@@ -123,7 +123,7 @@ class StockControllerIntegrationTest {
                 .verifyComplete();
 
         webTestClient.get()
-                .uri("/stocks/" + STOCK_PRICE)
+                .uri("/stocks/price/" + STOCK_PRICE)
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
                 .expectStatus().isOk()
