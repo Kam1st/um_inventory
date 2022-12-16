@@ -34,7 +34,7 @@ public class StockController {
         return stockItemService.insertStock(stockItemDTOMono);
     }
 
-    @GetMapping("{price}")
+    @GetMapping("/stocks/{price}")
     public Flux<StockItemDTO> getStockItemByPrice(@PathVariable double price) {
         return stockItemService.getStockItemsByPrice(price);
     }

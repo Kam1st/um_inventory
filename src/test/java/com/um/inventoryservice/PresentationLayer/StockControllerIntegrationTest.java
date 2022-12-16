@@ -110,6 +110,35 @@ class StockControllerIntegrationTest {
     }
 
     @Test
+    void getStockItemByPrice() {
+
+        StockItem stockItem = buildStockItem();
+        double STOCK_PRICE = stockItem.getPrice();
+
+        Publisher<StockItem> setup = stockItemRepository.deleteAll().thenMany(stockItemRepository.save(stockItem));
+
+        StepVerifier
+                .create(setup)
+                .expectNextCount(1)
+                .verifyComplete();
+
+        webTestClient.get()
+                .uri("/stocks/" + STOCK_PRICE)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON)
+                .expectBody()
+                .jsonPath("$[0].stockItemId").isEqualTo(stockItem.getStockItemId())
+                .jsonPath("$[0].description").isEqualTo(stockItem.getDescription())
+                .jsonPath("$[0].supplierId").isEqualTo(stockItem.getSupplierId())
+                .jsonPath("$[0].salesQuantity").isEqualTo(stockItem.getSalesQuantity())
+                .jsonPath("$[0].price").isEqualTo(stockItem.getPrice());
+
+
+    }
+
+    @Test
     void updateStockItem() {
         Publisher<StockItem> setup = stockItemRepository.deleteAll().thenMany(stockItemRepository.save(stockItem2));
         StepVerifier
