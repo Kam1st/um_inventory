@@ -10,6 +10,6 @@ import lombok.*;
 public class InventoryItemDTO {
 
     private String inventoryItemId;
-    private String stockItemId;
+    private StockItemDTO stockItemDTO;
     private int quantityInStock;
 }

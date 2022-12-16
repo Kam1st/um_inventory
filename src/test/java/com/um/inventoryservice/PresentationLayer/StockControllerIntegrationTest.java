@@ -26,16 +26,11 @@ class StockControllerIntegrationTest {
 
     StockItemDTO stockItemDTO = buildStockItemDTO();
 
-    private final InventoryItem inventoryItem = buildInventoryItem();
-
     @Autowired
     private WebTestClient webTestClient;
 
     @Autowired
     private StockItemRepository stockItemRepository;
-
-    @Autowired
-    private InventoryItemRepository inventoryItemRepository;
 
     @Test
     void getAllStockItems() {
@@ -155,29 +150,6 @@ class StockControllerIntegrationTest {
                 .expectBody();
     }
 
-    @Test
-    void insertInventoryItem() {
-        Publisher<Void> setup = inventoryItemRepository.deleteAll();
-
-        StepVerifier
-                .create(setup)
-                .expectNextCount(0)
-                .verifyComplete();
-
-        webTestClient
-                .post()
-                .uri("/inventory")
-                .body(Mono.just(inventoryItem), InventoryItem.class)
-                .accept(MediaType.APPLICATION_JSON)
-                .exchange()
-                .expectStatus().isOk()
-                .expectHeader().contentType(MediaType.APPLICATION_JSON)
-                .expectBody(InventoryItemDTO.class)
-                .value((dto) -> {
-                    assertThat(dto.getStockItemId()).isEqualTo(inventoryItem.getStockItemId());
-                    assertThat(dto.getQuantityInStock()).isEqualTo(inventoryItem.getQuantityInStock());
-                });
-    }
 
     @Test
     void toStringBuilders() {
@@ -215,19 +187,5 @@ class StockControllerIntegrationTest {
                 .build();
     }
 
-    private InventoryItem buildInventoryItem() {
-        return InventoryItem.builder()
-                .inventoryItemId("1123456")
-                .stockItemId("2234567")
-                .quantityInStock(375)
-                .build();
-    }
 
-    private InventoryItemDTO buildInventoryItemDTO() {
-        return InventoryItemDTO.builder()
-                .inventoryItemId("1135791")
-                .stockItemId("2246824")
-                .quantityInStock(75)
-                .build();
-    }
 }

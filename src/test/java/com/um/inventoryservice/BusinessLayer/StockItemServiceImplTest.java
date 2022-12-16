@@ -21,14 +21,8 @@ class StockItemServiceImplTest {
     @Autowired
     StockItemService stockItemService;
 
-    @Autowired
-    InventoryItemService inventoryItemService;
-
     @MockBean
     StockItemRepository stockItemRepository;
-
-    @MockBean
-    InventoryItemRepository inventoryItemRepository;
 
     StockItem stockItem = buildStockItem();
 
@@ -36,11 +30,6 @@ class StockItemServiceImplTest {
 
     StockItemDTO stockItemDTO = buildStockItemDTO();
 
-    InventoryItem inventoryItem = buildInventoryItem();
-
-    String INVENTORY_ID = inventoryItem.getInventoryItemId();
-
-    InventoryItemDTO inventoryItemDTO = buildInventoryItemDTO();
 
     @Test
     void getAllStockItems(){
@@ -118,17 +107,6 @@ class StockItemServiceImplTest {
         verify(stockItemRepository, times(1)).deleteStockItemByStockItemId(STOCK_ID);
     }
 
-    @Test
-    void insertInventoryItem() {
-        inventoryItemService.insertInventoryItem(Mono.just(inventoryItemDTO))
-                .map(invDTO -> {
-                    assertEquals(invDTO.getInventoryItemId(), inventoryItemDTO.getInventoryItemId());
-                    assertEquals(invDTO.getStockItemId(), inventoryItemDTO.getStockItemId());
-                    assertEquals(invDTO.getQuantityInStock(), inventoryItemDTO.getQuantityInStock());
-                    return invDTO;
-                });
-    }
-
 
     private StockItem buildStockItem() {
         return StockItem.builder()
@@ -150,19 +128,5 @@ class StockItemServiceImplTest {
                 .build();
     }
 
-    private InventoryItem buildInventoryItem() {
-        return InventoryItem.builder()
-                .inventoryItemId("1134567")
-                .stockItemId("2254321")
-                .quantityInStock(215)
-                .build();
-    }
 
-    private InventoryItemDTO buildInventoryItemDTO() {
-        return InventoryItemDTO.builder()
-                .inventoryItemId("1124680")
-                .stockItemId("2297531")
-                .quantityInStock(25)
-                .build();
-    }
 }

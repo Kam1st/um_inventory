@@ -39,7 +39,7 @@ public class EntityDTOUtil {
     public static InventoryItem toEntity(InventoryItemDTO inventoryItemDTO) {
         InventoryItem inventoryItem = new InventoryItem();
         inventoryItem.setInventoryItemId(generateInventoryId());
-        inventoryItem.setStockItemId(inventoryItemDTO.getStockItemId());
+        inventoryItem.setStockItemDTO(inventoryItemDTO.getStockItemDTO());
         inventoryItem.setQuantityInStock(inventoryItemDTO.getQuantityInStock());
         return inventoryItem;
     }

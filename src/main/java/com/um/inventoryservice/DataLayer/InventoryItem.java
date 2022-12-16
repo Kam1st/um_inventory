@@ -14,6 +14,6 @@ public class InventoryItem {
     private String id;
 
     private String inventoryItemId;
-    private String stockItemId;
+    private StockItemDTO stockItemDTO;
     private int quantityInStock;
 }
