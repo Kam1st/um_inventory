@@ -34,6 +34,11 @@ public class StockController {
         return stockItemService.insertStock(stockItemDTOMono);
     }
 
+    @GetMapping("/price/{price}")
+    public Flux<StockItemDTO> getStockItemByPrice(@PathVariable double price) {
+        return stockItemService.getStockItemsByPrice(price);
+    }
+
     @PutMapping("{stockItemId}")
     public Mono<ResponseEntity<StockItemDTO>> updateStockItemById(@PathVariable String stockItemId, @RequestBody Mono<StockItemDTO> stockItemDTOMono) {
         return stockItemService.updateStockItem(stockItemId, stockItemDTOMono)
