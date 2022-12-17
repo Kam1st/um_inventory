@@ -1,8 +1,6 @@
 package com.um.inventoryservice.PresentationLayer;
 
-import com.um.inventoryservice.DataLayer.StockItem;
-import com.um.inventoryservice.DataLayer.StockItemDTO;
-import com.um.inventoryservice.DataLayer.StockItemRepository;
+import com.um.inventoryservice.DataLayer.*;
 import org.junit.jupiter.api.Test;
 import org.reactivestreams.Publisher;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -180,6 +178,8 @@ class StockControllerIntegrationTest {
                 .expectStatus().isOk()
                 .expectBody();
     }
+
+
     @Test
     void toStringBuilders() {
         System.out.println(StockItem.builder());
@@ -215,5 +215,6 @@ class StockControllerIntegrationTest {
                 .price(25.99)
                 .build();
     }
+
 
 }

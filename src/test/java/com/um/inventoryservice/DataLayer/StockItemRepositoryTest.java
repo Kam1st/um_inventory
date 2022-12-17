@@ -130,6 +130,7 @@ class StockItemRepositoryTest {
                 .verifyComplete();
     }
 
+
     private StockItem buildStockItem() {
         return StockItem.builder()
                 .stockItemId("297445493")
@@ -149,4 +150,6 @@ class StockItemRepositoryTest {
                 .price(25.99)
                 .build();
     }
+
+
 }
