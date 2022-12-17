@@ -15,6 +15,7 @@ import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
@@ -29,29 +30,30 @@ class InventoryControllerIntegrationTest {
     @Autowired
     private InventoryItemRepository inventoryItemRepository;
 
-//    @Test
-//    void insertInventoryItem() {
-//        Publisher<Void> setup = inventoryItemRepository.deleteAll();
-//
-//        StepVerifier
-//                .create(setup)
-//                .expectNextCount(0)
-//                .verifyComplete();
-//
-//        webTestClient
-//                .post()
-//                .uri("/inventory")
-//                .body(Mono.just(inventoryItem), InventoryItemDTO.class)
-//                .accept(MediaType.APPLICATION_JSON)
-//                .exchange()
-//                .expectStatus().isOk()
-//                .expectHeader().contentType(MediaType.APPLICATION_JSON)
-//                .expectBody(InventoryItemDTO.class)
-//                .value((dto) -> {
-//                    assertThat(dto.getStockItemDTO()).isEqualTo(inventoryItem.getStockItemDTO());
+    @Test
+    void insertInventoryItem() {
+        Publisher<Void> setup = inventoryItemRepository.deleteAll();
+
+        StepVerifier
+                .create(setup)
+                .expectNextCount(0)
+                .verifyComplete();
+
+        webTestClient
+                .post()
+                .uri("/inventory")
+                .body(Mono.just(inventoryItem), InventoryItemDTO.class)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON)
+                .expectBody(InventoryItemDTO.class)
+                .value((dto) -> {
+                    assertEquals(dto.getInventoryItemId(), inventoryItem.getInventoryItemId());
+                    assertEquals(dto.getQuantityInStock(), inventoryItem.getQuantityInStock());
 //                    assertThat(dto.getQuantityInStock()).isEqualTo(inventoryItem.getQuantityInStock());
-//                });
-//    }
+                });
+    }
 
     private InventoryItem buildInventoryItem() {
         return InventoryItem.builder()
