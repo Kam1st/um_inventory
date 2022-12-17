@@ -71,7 +71,7 @@ class InventoryControllerIntegrationTest {
 
     private StockItemDTO buildStockItemDTO() {
         return StockItemDTO.builder()
-                .stockItemId("297445493")
+                .stockItemId("22445493")
                 .description("DTO test plumbing item")
                 .supplierId(2005)
                 .salesQuantity(53)

@@ -16,7 +16,7 @@ public class EntityDTOUtil {
 
     public static StockItem toEntity(StockItemDTO dto) {
         StockItem stockItem = new StockItem();
-        stockItem.setStockItemId(generateStockId());
+        stockItem.setStockItemId(dto.getStockItemId());
         stockItem.setDescription(dto.getDescription());
         stockItem.setPrice(dto.getPrice());
         stockItem.setSupplierId(dto.getSupplierId());
@@ -24,11 +24,11 @@ public class EntityDTOUtil {
         return stockItem;
     }
 
-    public static String generateStockId() {
-        Random random = new Random();
-        int number = random.nextInt(99999);
-        return "22" + (String.format("%05d", number));
-    }
+//    public static String generateStockId() {
+//        Random random = new Random();
+//        int number = random.nextInt(99999);
+//        return "22" + (String.format("%05d", number));
+//    }
 
     public static StockItemDTO toDTO(StockItem stockItem) {
         StockItemDTO dto = new StockItemDTO();
@@ -38,7 +38,7 @@ public class EntityDTOUtil {
 
     public static InventoryItem toEntity(InventoryItemDTO inventoryItemDTO) {
         InventoryItem inventoryItem = new InventoryItem();
-        inventoryItem.setInventoryItemId(generateInventoryId());
+        inventoryItem.setInventoryItemId(inventoryItemDTO.getInventoryItemId());
         inventoryItem.setStockItemDTO(inventoryItemDTO.getStockItemDTO());
         inventoryItem.setQuantityInStock(inventoryItemDTO.getQuantityInStock());
         return inventoryItem;
@@ -50,9 +50,9 @@ public class EntityDTOUtil {
         return inventoryItemDTO;
     }
 
-    public static String generateInventoryId() {
-        Random random = new Random();
-        int number = random.nextInt(99999);
-        return "11" + (String.format("%05d", number));
-    }
+//    public static String generateInventoryId() {
+//        Random random = new Random();
+//        int number = random.nextInt(99999);
+//        return "11" + (String.format("%05d", number));
+//    }
 }
