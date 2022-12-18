@@ -51,9 +51,33 @@ class InventoryControllerIntegrationTest {
                 .value((dto) -> {
                     assertEquals(dto.getInventoryItemId(), inventoryItem.getInventoryItemId());
                     assertEquals(dto.getQuantityInStock(), inventoryItem.getQuantityInStock());
-//                    assertThat(dto.getQuantityInStock()).isEqualTo(inventoryItem.getQuantityInStock());
                 });
     }
+
+    @Test
+    void getAllInventoryItems() {
+
+        Publisher<InventoryItem> setup = inventoryItemRepository.deleteAll().thenMany(inventoryItemRepository.save(inventoryItem));
+
+        StepVerifier
+                .create(setup)
+                .expectNextCount(1)
+                .verifyComplete();
+
+        webTestClient
+                .get()
+                .uri("/inventory")
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON)
+                .expectBody()
+                .jsonPath("$[0].inventoryItemId").isEqualTo(inventoryItem.getInventoryItemId())
+//                .jsonPath("$[0].stockItemDTO").isEqualTo(inventoryItem.getStockItemDTO())
+                .jsonPath("$[0].quantityInStock").isEqualTo(inventoryItem.getQuantityInStock());
+    }
+
+
 
     private InventoryItem buildInventoryItem() {
         return InventoryItem.builder()

@@ -9,9 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.test.StepVerifier;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @AutoConfigureWebTestClient
@@ -40,6 +43,23 @@ class InventoryItemServiceImplTest {
                     assertEquals(invDTO.getQuantityInStock(), inventoryItemDTO.getQuantityInStock());
                     return invDTO;
                 });
+    }
+
+    @Test
+    void getAllInventoryItems() {
+
+        when(inventoryItemRepository.findAll()).thenReturn(Flux.just(inventoryItem));
+
+        Flux<InventoryItemDTO> invItemDTO = inventoryItemService.getAll();
+
+        StepVerifier
+                .create(invItemDTO)
+                .consumeNextWith(foundInvItem ->{
+                    assertEquals(inventoryItem.getInventoryItemId(), foundInvItem.getInventoryItemId());
+                    assertEquals(inventoryItem.getStockItemDTO(), foundInvItem.getStockItemDTO());
+                    assertEquals(inventoryItem.getQuantityInStock(), foundInvItem.getQuantityInStock());
+                })
+                .verifyComplete();
     }
 
     private InventoryItem buildInventoryItem() {
