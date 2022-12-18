@@ -1,5 +1,6 @@
 package com.um.inventoryservice.BusinessLayer;
 
+import com.um.inventoryservice.DataLayer.InventoryItemDTO;
 import com.um.inventoryservice.DataLayer.StockItemDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -12,6 +13,9 @@ public class DataSetupService implements CommandLineRunner {
 
     @Autowired
     StockItemService stockItemService;
+
+    @Autowired
+    InventoryItemService inventoryItemService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -32,6 +36,14 @@ public class DataSetupService implements CommandLineRunner {
                         .log(p.toString()))
                 .subscribe();
 
+        InventoryItemDTO inv1 = new InventoryItemDTO("1122222", new StockItemDTO("2454544", "Test stock item 1", 1, 3864, 28.6), 250);
+        InventoryItemDTO inv2 = new InventoryItemDTO("1133333",new StockItemDTO("7486504", "Test stock item 2", 1, 9736, 25.99), 24);
+        InventoryItemDTO inv3 = new InventoryItemDTO("1144444",new StockItemDTO("9735693", "Test stock item 3", 2, 7344, 39.6), 183);
+
+        Flux.just(inv1, inv2, inv3)
+                .flatMap(p -> inventoryItemService.insertInventoryItem(Mono.just(p))
+                        .log(p.toString()))
+                .subscribe();
 
     }
 }
