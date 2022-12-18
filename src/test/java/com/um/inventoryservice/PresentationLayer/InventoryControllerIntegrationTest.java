@@ -1,9 +1,6 @@
 package com.um.inventoryservice.PresentationLayer;
 
-import com.um.inventoryservice.DataLayer.InventoryItem;
-import com.um.inventoryservice.DataLayer.InventoryItemDTO;
-import com.um.inventoryservice.DataLayer.InventoryItemRepository;
-import com.um.inventoryservice.DataLayer.StockItemDTO;
+import com.um.inventoryservice.DataLayer.*;
 import org.junit.jupiter.api.Test;
 import org.reactivestreams.Publisher;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +27,8 @@ class InventoryControllerIntegrationTest {
     @Autowired
     private InventoryItemRepository inventoryItemRepository;
 
+    String INVENTORY_ID = inventoryItem.getInventoryItemId();
+
     @Test
     void insertInventoryItem() {
         Publisher<Void> setup = inventoryItemRepository.deleteAll();
@@ -55,6 +54,27 @@ class InventoryControllerIntegrationTest {
     }
 
     @Test
+    void getInventoryItemById() {
+        Publisher<InventoryItem> setup = inventoryItemRepository.deleteAll().thenMany(inventoryItemRepository.save(inventoryItem));
+
+        StepVerifier
+                .create(setup)
+                .expectNextCount(1)
+                .verifyComplete();
+
+        webTestClient
+                .get()
+                .uri("/inventory/" + INVENTORY_ID)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON)
+                .expectBody()
+                .jsonPath("$.inventoryItemId").isEqualTo(inventoryItem.getInventoryItemId())
+                .jsonPath("$.quantityInStock").isEqualTo(inventoryItem.getQuantityInStock());
+    }
+
+    @Test
     void getAllInventoryItems() {
 
         Publisher<InventoryItem> setup = inventoryItemRepository.deleteAll().thenMany(inventoryItemRepository.save(inventoryItem));
@@ -73,7 +93,6 @@ class InventoryControllerIntegrationTest {
                 .expectHeader().contentType(MediaType.APPLICATION_JSON)
                 .expectBody()
                 .jsonPath("$[0].inventoryItemId").isEqualTo(inventoryItem.getInventoryItemId())
-//                .jsonPath("$[0].stockItemDTO").isEqualTo(inventoryItem.getStockItemDTO())
                 .jsonPath("$[0].quantityInStock").isEqualTo(inventoryItem.getQuantityInStock());
     }
 

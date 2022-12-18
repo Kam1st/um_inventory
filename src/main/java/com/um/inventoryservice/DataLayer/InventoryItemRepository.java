@@ -5,5 +5,5 @@ import reactor.core.publisher.Mono;
 
 public interface InventoryItemRepository extends ReactiveMongoRepository<InventoryItem, String> {
 
-
+    Mono<InventoryItem> findInventoryItemByInventoryItemId(String inventoryItemId);
 }
