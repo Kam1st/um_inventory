@@ -4,7 +4,11 @@ import org.junit.jupiter.api.Test;
 import org.reactivestreams.Publisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
+
+import javax.management.monitor.MonitorNotification;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,6 +31,32 @@ class InventoryItemRepositoryTest {
                     assertEquals(inventoryItem.getInventoryItemId(), foundItem.getInventoryItemId());
                     assertEquals(inventoryItem.getStockItemDTO(), foundItem.getStockItemDTO());
                     assertEquals(inventoryItem.getQuantityInStock(), foundItem.getQuantityInStock());
+                })
+                .verifyComplete();
+    }
+
+    @Test
+    public void getAllInventoryItems() {
+        InventoryItem invItem = buildInventoryItem();
+
+        Publisher<InventoryItem> setup = inventoryItemRepository.deleteAll().thenMany(inventoryItemRepository.save(invItem));
+
+        StepVerifier
+                .create(setup)
+                .expectNextCount(1)
+                .verifyComplete();
+
+        Flux<InventoryItem> find = inventoryItemRepository.findAll();
+        Publisher<InventoryItem> composite = Mono
+                .from(setup)
+                .thenMany(find);
+
+        StepVerifier
+                .create(composite)
+                .consumeNextWith(foundInvItem ->{
+                    assertEquals(invItem.getInventoryItemId(), foundInvItem.getInventoryItemId());
+//                    assertEquals(invItem.getStockItemDTO(), foundInvItem.getStockItemDTO());
+                    assertEquals(invItem.getQuantityInStock(), foundInvItem.getQuantityInStock());
                 })
                 .verifyComplete();
     }
