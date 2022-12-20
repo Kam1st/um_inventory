@@ -1,5 +1,13 @@
 services:
 
+#  janus:
+#    image: nginx
+#    ports:
+#      - "80:80"
+#    volumes:
+#      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+#      - ./nginx/njs:/etc/nginx/njs
+
   inventory-service:
     build: .
     environment:

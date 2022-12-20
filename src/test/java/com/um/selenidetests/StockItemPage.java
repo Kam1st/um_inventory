@@ -3,5 +3,5 @@
 ////
 //public class StockItemPage {
 ////
-////    String url = "http://localhost:4200/";
+////    String url = "https://localhost:4200/";
 //}
