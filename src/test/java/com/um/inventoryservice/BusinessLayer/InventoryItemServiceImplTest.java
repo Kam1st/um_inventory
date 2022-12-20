@@ -14,6 +14,7 @@ import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -43,6 +44,24 @@ class InventoryItemServiceImplTest {
                     assertEquals(invDTO.getQuantityInStock(), inventoryItemDTO.getQuantityInStock());
                     return invDTO;
                 });
+    }
+
+    @Test
+    void getInventoryItemByInventoryItemId() {
+
+        when(inventoryItemRepository.findInventoryItemByInventoryItemId(anyString())).thenReturn(Mono.just(inventoryItem));
+
+        Mono<InventoryItemDTO> inventoryItemDTOMono = inventoryItemService.getInventoryItemById(INVENTORY_ID);
+
+        StepVerifier
+                .create(inventoryItemDTOMono)
+                .consumeNextWith(foundInvItem -> {
+                    assertEquals(inventoryItem.getInventoryItemId(), foundInvItem.getInventoryItemId());
+                    assertEquals(inventoryItem.getStockItemDTO(), foundInvItem.getStockItemDTO());
+                    assertEquals(inventoryItem.getQuantityInStock(), foundInvItem.getQuantityInStock());
+                })
+
+                .verifyComplete();
     }
 
     @Test

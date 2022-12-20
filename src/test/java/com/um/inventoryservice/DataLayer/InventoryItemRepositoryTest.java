@@ -18,6 +18,8 @@ class InventoryItemRepositoryTest {
     @Autowired
     InventoryItemRepository inventoryItemRepository;
 
+    InventoryItem inventoryItem = buildInventoryItem();
+
     StockItemDTO stockItemDTO = buildStockItemDTO();
 
     @Test
@@ -31,6 +33,30 @@ class InventoryItemRepositoryTest {
                     assertEquals(inventoryItem.getInventoryItemId(), foundItem.getInventoryItemId());
                     assertEquals(inventoryItem.getStockItemDTO(), foundItem.getStockItemDTO());
                     assertEquals(inventoryItem.getQuantityInStock(), foundItem.getQuantityInStock());
+                })
+                .verifyComplete();
+    }
+
+    @Test
+    void getInventoryItemById() {
+        Publisher<InventoryItem> setup = inventoryItemRepository.deleteAll().thenMany(inventoryItemRepository.save(inventoryItem));
+
+        StepVerifier
+                .create(setup)
+                .expectNextCount(1)
+                .verifyComplete();
+
+        Mono<InventoryItem> find = inventoryItemRepository.findInventoryItemByInventoryItemId(inventoryItem.getInventoryItemId());
+        Publisher<InventoryItem> composite = Mono
+                .from(setup)
+                .then(find);
+
+        StepVerifier
+                .create(composite)
+                .consumeNextWith(foundInvItem -> {
+                    assertEquals(inventoryItem.getInventoryItemId(), foundInvItem.getInventoryItemId());
+                    assertEquals(inventoryItem.getStockItemDTO().getStockItemId(), foundInvItem.getStockItemDTO().getStockItemId());
+                    assertEquals(inventoryItem.getQuantityInStock(), foundInvItem.getQuantityInStock());
                 })
                 .verifyComplete();
     }
@@ -55,7 +81,7 @@ class InventoryItemRepositoryTest {
                 .create(composite)
                 .consumeNextWith(foundInvItem ->{
                     assertEquals(invItem.getInventoryItemId(), foundInvItem.getInventoryItemId());
-//                    assertEquals(invItem.getStockItemDTO(), foundInvItem.getStockItemDTO());
+                    assertEquals(invItem.getStockItemDTO().getStockItemId(), foundInvItem.getStockItemDTO().getStockItemId());
                     assertEquals(invItem.getQuantityInStock(), foundInvItem.getQuantityInStock());
                 })
                 .verifyComplete();

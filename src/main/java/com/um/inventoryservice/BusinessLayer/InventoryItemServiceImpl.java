@@ -29,4 +29,10 @@ public class InventoryItemServiceImpl implements InventoryItemService{
                 .map(EntityDTOUtil::toDTO);
     }
 
+    @Override
+    public Mono<InventoryItemDTO> getInventoryItemById(String inventoryItemId) {
+        return inventoryItemRepository.findInventoryItemByInventoryItemId(inventoryItemId)
+                .map(EntityDTOUtil::toDTO);
+    }
+
 }
