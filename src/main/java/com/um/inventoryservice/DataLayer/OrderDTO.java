@@ -13,6 +13,6 @@ import java.util.Map;
 public class OrderDTO {
 
     private String clientId;
-    private Map<String, StockOrderDTO> stockOrderDTOS;
+    private List<StockOrderDTO> stockOrderDTOS;
 
 }

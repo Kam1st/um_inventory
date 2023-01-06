@@ -34,7 +34,8 @@ public class EntityDTOUtil {
 
     public static OrderDTO toDTO(Order order) {
         OrderDTO dto = new OrderDTO();
-        BeanUtils.copyProperties(order, dto);
+        dto.setStockOrderDTOS(order.getStockOrderDTOS());
+        dto.setClientId(order.getClientId());
         return dto;
     }
 

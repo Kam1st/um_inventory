@@ -17,5 +17,5 @@ public class Order {
     private String id;
 
     private String clientId;
-    private Map<String, StockOrderDTO> stockOrderDTOS;
+    private List<StockOrderDTO> stockOrderDTOS;
 }

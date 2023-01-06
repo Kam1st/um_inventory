@@ -30,17 +30,17 @@ public class DataSetupService implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        OrderDTO o1 = new OrderDTO("1", new HashMap<>());
-        OrderDTO o2 = new OrderDTO("2", new HashMap<>());
-        OrderDTO o3 = new OrderDTO("2", new HashMap<>());
+        OrderDTO o1 = new OrderDTO("1", new ArrayList<>());
+        OrderDTO o2 = new OrderDTO("2", new ArrayList<>());
+        OrderDTO o3 = new OrderDTO("2", new ArrayList<>());
         StockOrderDTO so1 = new StockOrderDTO("2454544", "this is the test for stock item 1", 6);
         StockOrderDTO so2 = new StockOrderDTO("7486504", "this is the test for stock item 2", 7);
         StockOrderDTO so3 = new StockOrderDTO("9735693", "this is the test for stock item 3", 8);
         StockOrderDTO so4 = new StockOrderDTO("7486504", "this is the test for stock item 3 x2", 3);
-        o1.getStockOrderDTOS().put(so1.getStockItemId(), so1);
-        o2.getStockOrderDTOS().put(so2.getStockItemId(), so2);
-        o3.getStockOrderDTOS().put(so3.getStockItemId(), so3);
-        o3.getStockOrderDTOS().put(so4.getStockItemId(), so4);
+        o1.getStockOrderDTOS().add(so1);
+        o2.getStockOrderDTOS().add(so2);
+        o3.getStockOrderDTOS().add(so3);
+        o3.getStockOrderDTOS().add(so4);
 
         Flux.just(o1, o2, o3)
                 .flatMap(p -> orderService.insertOrder(Mono.just(p))

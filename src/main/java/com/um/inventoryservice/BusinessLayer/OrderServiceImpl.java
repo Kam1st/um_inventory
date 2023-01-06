@@ -21,8 +21,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Flux<OrderDTO> getOrdersByStockItemId(String stockItemId){
-        return orderRepository.findAll()
-                .filter(o -> o.getStockOrderDTOS().containsKey(stockItemId))
+        return orderRepository.findOrdersByStockItemId(stockItemId)
                 .map(EntityDTOUtil::toDTO);
     }
 
