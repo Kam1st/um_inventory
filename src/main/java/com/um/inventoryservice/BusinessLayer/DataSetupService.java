@@ -1,12 +1,19 @@
 package com.um.inventoryservice.BusinessLayer;
 
+import com.sun.jdi.ObjectReference;
 import com.um.inventoryservice.DataLayer.InventoryItemDTO;
+import com.um.inventoryservice.DataLayer.OrderDTO;
 import com.um.inventoryservice.DataLayer.StockItemDTO;
+import com.um.inventoryservice.DataLayer.StockOrderDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 @Service
 public class DataSetupService implements CommandLineRunner {
@@ -15,21 +22,42 @@ public class DataSetupService implements CommandLineRunner {
     StockItemService stockItemService;
 
     @Autowired
+    OrderService orderService;
+
+    @Autowired
     InventoryItemService inventoryItemService;
 
     @Override
     public void run(String... args) throws Exception {
 
-        StockItemDTO s1 = new StockItemDTO("2454544", "Test stock item 1", 1, 3864, 28.6, 28.6, 9);
-        StockItemDTO s2 = new StockItemDTO("7486504", "Test stock item 2", 1, 9736, 25.99, 25.99, 5);
-        StockItemDTO s3 = new StockItemDTO("9735693", "Test stock item 3", 2, 7344, 39.6, 39.6, 85);
-        StockItemDTO s4 = new StockItemDTO("9736560", "Test stock item 4", 2, 3567, 25.99, 25.99, 9865);
-        StockItemDTO s5 = new StockItemDTO("9576508", "Test stock item 5", 3, 6466, 63.6, 63.6, 64);
-        StockItemDTO s6 = new StockItemDTO("5875693", "Test stock item 6", 3, 6775, 25.99, 25.99, 85);
-        StockItemDTO s7 = new StockItemDTO("4974659", "Test stock item 7", 4, 3456, 49.6, 49.6, 85);
-        StockItemDTO s8 = new StockItemDTO("3085708", "Test stock item 8", 5, 8536, 25.99, 25.99, 73);
-        StockItemDTO s9 = new StockItemDTO("9837058", "Test stock item 9", 5, 4674, 76.6, 76.6, 96);
-        StockItemDTO s10 = new StockItemDTO("6387508", "Test stock item 10", 6, 5675, 25.99, 25.99, 74);
+        OrderDTO o1 = new OrderDTO("1", new ArrayList<>());
+        OrderDTO o2 = new OrderDTO("2", new ArrayList<>());
+        OrderDTO o3 = new OrderDTO("2", new ArrayList<>());
+        StockOrderDTO so1 = new StockOrderDTO("2454544", "this is the test for stock item 1", 6);
+        StockOrderDTO so2 = new StockOrderDTO("7486504", "this is the test for stock item 2", 7);
+        StockOrderDTO so3 = new StockOrderDTO("9735693", "this is the test for stock item 3", 8);
+        StockOrderDTO so4 = new StockOrderDTO("7486504", "this is the test for stock item 3 x2", 3);
+        o1.getStockOrderDTOS().add(so1);
+        o2.getStockOrderDTOS().add(so2);
+        o3.getStockOrderDTOS().add(so3);
+        o3.getStockOrderDTOS().add(so4);
+
+        Flux.just(o1, o2, o3)
+                .flatMap(p -> orderService.insertOrder(Mono.just(p))
+                        .log(p.toString()))
+                .subscribe();
+
+
+        StockItemDTO s1 = new StockItemDTO("2454544", "Test stock item 1", "Paul", 3864, 28.6, 28.6, 9);
+        StockItemDTO s2 = new StockItemDTO("7486504", "Test stock item 2", "Paul", 9736, 25.99, 25.99, 5);
+        StockItemDTO s3 = new StockItemDTO("9735693", "Test stock item 3", "Paul", 7344, 39.6, 39.6, 85);
+        StockItemDTO s4 = new StockItemDTO("9736560", "Test stock item 4", "Marty", 3567, 25.99, 25.99, 9865);
+        StockItemDTO s5 = new StockItemDTO("9576508", "Test stock item 5", "Paul", 6466, 63.6, 63.6, 64);
+        StockItemDTO s6 = new StockItemDTO("5875693", "Test stock item 6", "Marty", 6775, 25.99, 25.99, 85);
+        StockItemDTO s7 = new StockItemDTO("4974659", "Test stock item 7", "Paul", 3456, 49.6, 49.6, 85);
+        StockItemDTO s8 = new StockItemDTO("3085708", "Test stock item 8", "Paul", 8536, 25.99, 25.99, 73);
+        StockItemDTO s9 = new StockItemDTO("9837058", "Test stock item 9", "Bob", 4674, 76.6, 76.6, 96);
+        StockItemDTO s10 = new StockItemDTO("6387508", "Test stock item 10", "Bob", 5675, 25.99, 25.99, 74);
 
         Flux.just(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10)
                 .flatMap(p -> stockItemService.insertStock(Mono.just(p))
