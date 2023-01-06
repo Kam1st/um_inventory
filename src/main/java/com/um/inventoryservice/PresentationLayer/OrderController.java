@@ -26,7 +26,7 @@ public class OrderController {
         return orderService.insertOrder(orderDTOMono);
     }
 
-    @GetMapping("/price/{price}")
+    @GetMapping("/orders/{stockItemId}")
     public Flux<OrderDTO> getOrdersByStockItemId(@PathVariable String stockItemId) {
         return orderService.getOrdersByStockItemId(stockItemId);
     }
