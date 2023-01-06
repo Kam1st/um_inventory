@@ -45,6 +45,7 @@ class StockItemServiceImplTest {
                     assertEquals(stockItem.getDescription(), foundStockItem.getDescription());
                     assertEquals(stockItem.getSupplierName(), foundStockItem.getSupplierName());
                     assertEquals(stockItem.getQuantitySold(), foundStockItem.getQuantitySold());
+                    assertEquals(stockItem.getCostPrice(),foundStockItem.getCostPrice());
                     assertEquals(stockItem.getSellingPrice(), foundStockItem.getSellingPrice());
                 })
                 .verifyComplete();
@@ -60,6 +61,7 @@ class StockItemServiceImplTest {
                     assertEquals(stockItemDTO1.getSupplierName(), stockItem.getSupplierName());
                     assertEquals(stockItemDTO1.getQuantitySold(), stockItem.getQuantitySold());
                     assertEquals(stockItemDTO1.getSellingPrice(), stockItem.getSellingPrice());
+                    assertEquals(stockItemDTO1.getCostPrice(), stockItem.getCostPrice());
                     return stockItemDTO1;
                 });
     }
@@ -79,6 +81,7 @@ class StockItemServiceImplTest {
                     assertEquals(stockItem.getSupplierName(), foundStockItem.getSupplierName());
                     assertEquals(stockItem.getQuantitySold(), foundStockItem.getQuantitySold());
                     assertEquals(stockItem.getSellingPrice(), foundStockItem.getSellingPrice());
+                    assertEquals(stockItem.getCostPrice(), foundStockItem.getCostPrice());
 
                 })
 
@@ -97,17 +100,18 @@ class StockItemServiceImplTest {
                     assertEquals(stockItemDTO1.getSupplierName(), stockItemDTO.getSupplierName());
                     assertEquals(stockItemDTO1.getQuantitySold(), stockItemDTO.getQuantitySold());
                     assertEquals(stockItemDTO1.getSellingPrice(), stockItemDTO.getSellingPrice());
+                    assertEquals(stockItemDTO1.getCostPrice(), stockItemDTO.getCostPrice());
                     return stockItemDTO1;
                 });
     }
 
     @Test
-    void getStockItemByPrice() {
+    void getStockItemBySellingPrice() {
         StockItem stockItem = buildStockItem();
 
         double STOCK_PRICE = stockItem.getSellingPrice();
 
-        when(stockItemRepository.findStockItemsByPrice(anyDouble())).thenReturn(Flux.just(stockItem));
+        when(stockItemRepository.findStockItemsBySellingPrice(anyDouble())).thenReturn(Flux.just(stockItem));
 
         Flux<StockItemDTO> stockItemDTO = stockItemService.getStockItemsByPrice(STOCK_PRICE);
 
@@ -117,6 +121,7 @@ class StockItemServiceImplTest {
                     assertEquals(stockItem.getDescription(), foundStock.getDescription());
                     assertEquals(stockItem.getSupplierName(), foundStock.getSupplierName());
                     assertEquals(stockItem.getSellingPrice(), foundStock.getSellingPrice());
+                    assertEquals(stockItem.getCostPrice(), foundStock.getCostPrice());
                 })
                 .verifyComplete();
     }
@@ -132,8 +137,9 @@ class StockItemServiceImplTest {
         return StockItem.builder()
                 .stockItemId("297445493")
                 .description("Test plumbing item")
-                .supplierName(1005)
+                .supplierName("Paul")
                 .quantitySold(23)
+                .costPrice(75.48)
                 .sellingPrice(75.99)
                 .build();
     }
@@ -142,8 +148,9 @@ class StockItemServiceImplTest {
         return StockItemDTO.builder()
                 .stockItemId("297445493")
                 .description("DTO test plumbing item")
-                .supplierName(2005)
+                .supplierName("Paul")
                 .quantitySold(53)
+                .costPrice(75.48)
                 .sellingPrice(25.99)
                 .build();
     }

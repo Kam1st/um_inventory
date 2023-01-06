@@ -7,12 +7,9 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class StockItemDTO {
+public class StockOrderDTO {
+
     private String stockItemId;
     private String description;
-    private String supplierName;
-    private int quantitySold;
-    private double costPrice;
-    private double sellingPrice;
     private int quantity;
 }

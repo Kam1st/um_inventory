@@ -35,8 +35,8 @@ public class StockItemServiceImpl implements StockItemService{
     }
 
     @Override
-    public Flux<StockItemDTO> getStockItemsByPrice(double price) {
-        return stockItemRepository.findStockItemsByPrice(price)
+    public Flux<StockItemDTO> getStockItemsByPrice(double sellingPrice) {
+        return stockItemRepository.findStockItemsBySellingPrice(sellingPrice)
                 .map(EntityDTOUtil::toDTO);
     }
 
