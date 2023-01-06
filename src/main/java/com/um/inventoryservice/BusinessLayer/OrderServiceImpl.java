@@ -12,6 +12,12 @@ public class OrderServiceImpl implements OrderService {
     OrderRepository orderRepository;
 
     @Override
+    public Flux<OrderDTO> getAll() {
+        return orderRepository.findAll()
+                .map(EntityDTOUtil::toDTO);
+    }
+
+    @Override
     public Flux<OrderDTO> getOrdersByStockItemId(String stockItemId){
         return orderRepository.findOrdersByStockItemId(stockItemId)
                 .map(EntityDTOUtil::toDTO);
