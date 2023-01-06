@@ -10,7 +10,9 @@ import lombok.*;
 public class StockItemDTO {
     private String stockItemId;
     private String description;
-    private int supplierId;
-    private int salesQuantity;
-    private double price;
+    private int supplierName;
+    private int quantitySold;
+    private double costPrice;
+    private double sellingPrice;
+    private int quantity;
 }

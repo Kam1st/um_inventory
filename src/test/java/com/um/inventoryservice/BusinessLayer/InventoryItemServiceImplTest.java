@@ -101,9 +101,9 @@ class InventoryItemServiceImplTest {
         return StockItemDTO.builder()
                 .stockItemId("297445493")
                 .description("DTO test plumbing item")
-                .supplierId(2005)
-                .salesQuantity(53)
-                .price(25.99)
+                .supplierName(2005)
+                .quantitySold(53)
+                .sellingPrice(25.99)
                 .build();
     }
 

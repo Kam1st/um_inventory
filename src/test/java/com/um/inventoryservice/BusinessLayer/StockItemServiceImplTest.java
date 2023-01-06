@@ -43,9 +43,9 @@ class StockItemServiceImplTest {
                 .consumeNextWith(foundStockItem ->{
                     assertEquals(stockItem.getStockItemId(), foundStockItem.getStockItemId());
                     assertEquals(stockItem.getDescription(), foundStockItem.getDescription());
-                    assertEquals(stockItem.getSupplierId(), foundStockItem.getSupplierId());
-                    assertEquals(stockItem.getSalesQuantity(), foundStockItem.getSalesQuantity());
-                    assertEquals(stockItem.getPrice(), foundStockItem.getPrice());
+                    assertEquals(stockItem.getSupplierName(), foundStockItem.getSupplierName());
+                    assertEquals(stockItem.getQuantitySold(), foundStockItem.getQuantitySold());
+                    assertEquals(stockItem.getSellingPrice(), foundStockItem.getSellingPrice());
                 })
                 .verifyComplete();
     }
@@ -57,9 +57,9 @@ class StockItemServiceImplTest {
                 .map(stockItemDTO1 -> {
                     assertEquals(stockItemDTO1.getStockItemId(), stockItem.getStockItemId());
                     assertEquals(stockItemDTO1.getDescription(), stockItem.getDescription());
-                    assertEquals(stockItemDTO1.getSupplierId(), stockItem.getSupplierId());
-                    assertEquals(stockItemDTO1.getSalesQuantity(), stockItem.getSalesQuantity());
-                    assertEquals(stockItemDTO1.getPrice(), stockItem.getPrice());
+                    assertEquals(stockItemDTO1.getSupplierName(), stockItem.getSupplierName());
+                    assertEquals(stockItemDTO1.getQuantitySold(), stockItem.getQuantitySold());
+                    assertEquals(stockItemDTO1.getSellingPrice(), stockItem.getSellingPrice());
                     return stockItemDTO1;
                 });
     }
@@ -76,9 +76,9 @@ class StockItemServiceImplTest {
                 .consumeNextWith(foundStockItem -> {
                     assertEquals(stockItem.getStockItemId(), foundStockItem.getStockItemId());
                     assertEquals(stockItem.getDescription(), foundStockItem.getDescription());
-                    assertEquals(stockItem.getSupplierId(), foundStockItem.getSupplierId());
-                    assertEquals(stockItem.getSalesQuantity(), foundStockItem.getSalesQuantity());
-                    assertEquals(stockItem.getPrice(), foundStockItem.getPrice());
+                    assertEquals(stockItem.getSupplierName(), foundStockItem.getSupplierName());
+                    assertEquals(stockItem.getQuantitySold(), foundStockItem.getQuantitySold());
+                    assertEquals(stockItem.getSellingPrice(), foundStockItem.getSellingPrice());
 
                 })
 
@@ -94,9 +94,9 @@ class StockItemServiceImplTest {
                 .map(stockItemDTO1 -> {
                     assertEquals(stockItemDTO1.getStockItemId(), stockItemDTO.getStockItemId());
                     assertEquals(stockItemDTO1.getDescription(), stockItemDTO.getDescription());
-                    assertEquals(stockItemDTO1.getSupplierId(), stockItemDTO.getSupplierId());
-                    assertEquals(stockItemDTO1.getSalesQuantity(), stockItemDTO.getSalesQuantity());
-                    assertEquals(stockItemDTO1.getPrice(), stockItemDTO.getPrice());
+                    assertEquals(stockItemDTO1.getSupplierName(), stockItemDTO.getSupplierName());
+                    assertEquals(stockItemDTO1.getQuantitySold(), stockItemDTO.getQuantitySold());
+                    assertEquals(stockItemDTO1.getSellingPrice(), stockItemDTO.getSellingPrice());
                     return stockItemDTO1;
                 });
     }
@@ -105,7 +105,7 @@ class StockItemServiceImplTest {
     void getStockItemByPrice() {
         StockItem stockItem = buildStockItem();
 
-        double STOCK_PRICE = stockItem.getPrice();
+        double STOCK_PRICE = stockItem.getSellingPrice();
 
         when(stockItemRepository.findStockItemsByPrice(anyDouble())).thenReturn(Flux.just(stockItem));
 
@@ -115,8 +115,8 @@ class StockItemServiceImplTest {
                 .consumeNextWith(foundStock ->{
                     assertEquals(stockItem.getStockItemId(), foundStock.getStockItemId());
                     assertEquals(stockItem.getDescription(), foundStock.getDescription());
-                    assertEquals(stockItem.getSupplierId(), foundStock.getSupplierId());
-                    assertEquals(stockItem.getPrice(), foundStock.getPrice());
+                    assertEquals(stockItem.getSupplierName(), foundStock.getSupplierName());
+                    assertEquals(stockItem.getSellingPrice(), foundStock.getSellingPrice());
                 })
                 .verifyComplete();
     }
@@ -132,9 +132,9 @@ class StockItemServiceImplTest {
         return StockItem.builder()
                 .stockItemId("297445493")
                 .description("Test plumbing item")
-                .supplierId(1005)
-                .salesQuantity(23)
-                .price(75.99)
+                .supplierName(1005)
+                .quantitySold(23)
+                .sellingPrice(75.99)
                 .build();
     }
 
@@ -142,9 +142,9 @@ class StockItemServiceImplTest {
         return StockItemDTO.builder()
                 .stockItemId("297445493")
                 .description("DTO test plumbing item")
-                .supplierId(2005)
-                .salesQuantity(53)
-                .price(25.99)
+                .supplierName(2005)
+                .quantitySold(53)
+                .sellingPrice(25.99)
                 .build();
     }
 
