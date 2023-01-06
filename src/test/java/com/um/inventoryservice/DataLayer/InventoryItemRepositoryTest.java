@@ -8,8 +8,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
-import javax.management.monitor.MonitorNotification;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataMongoTest
@@ -107,9 +105,9 @@ class InventoryItemRepositoryTest {
         return StockItemDTO.builder()
                 .stockItemId("297445493")
                 .description("DTO test plumbing item")
-                .supplierId(2005)
-                .salesQuantity(53)
-                .price(25.99)
+                .supplierName(2005)
+                .quantitySold(53)
+                .sellingPrice(25.99)
                 .build();
     }
 

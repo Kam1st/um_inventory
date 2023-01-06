@@ -43,9 +43,9 @@ class StockItemRepositoryTest {
                 .consumeNextWith(foundStockItem -> {
                     assertEquals(stockItem.getStockItemId(), foundStockItem.getStockItemId());
                     assertEquals(stockItem.getDescription(), foundStockItem.getDescription());
-                    assertEquals(stockItem.getSupplierId(), foundStockItem.getSupplierId());
-                    assertEquals(stockItem.getSalesQuantity(), foundStockItem.getSalesQuantity());
-                    assertEquals(stockItem.getPrice(), foundStockItem.getPrice());
+                    assertEquals(stockItem.getSupplierName(), foundStockItem.getSupplierName());
+                    assertEquals(stockItem.getQuantitySold(), foundStockItem.getQuantitySold());
+                    assertEquals(stockItem.getSellingPrice(), foundStockItem.getSellingPrice());
                 })
                 .verifyComplete();
     }
@@ -69,9 +69,9 @@ class StockItemRepositoryTest {
                 .consumeNextWith(foundStockItem -> {
                     assertEquals(stockItem.getStockItemId(), foundStockItem.getStockItemId());
                     assertEquals(stockItem.getDescription(), foundStockItem.getDescription());
-                    assertEquals(stockItem.getSupplierId(), foundStockItem.getSupplierId());
-                    assertEquals(stockItem.getSalesQuantity(), foundStockItem.getSalesQuantity());
-                    assertEquals(stockItem.getPrice(), foundStockItem.getPrice());
+                    assertEquals(stockItem.getSupplierName(), foundStockItem.getSupplierName());
+                    assertEquals(stockItem.getQuantitySold(), foundStockItem.getQuantitySold());
+                    assertEquals(stockItem.getSellingPrice(), foundStockItem.getSellingPrice());
                 })
                 .verifyComplete();
     }
@@ -82,7 +82,7 @@ class StockItemRepositoryTest {
         StockItem stockItem = buildStockItem();
 
         Publisher<StockItem> setup = stockItemRepository.deleteAll().thenMany(stockItemRepository.save(buildStockItem()));
-        Publisher<StockItem> find = stockItemRepository.findStockItemsByPrice(stockItem.getPrice());
+        Publisher<StockItem> find = stockItemRepository.findStockItemsByPrice(stockItem.getSellingPrice());
 
         StepVerifier
                 .create(setup)
@@ -106,9 +106,9 @@ class StockItemRepositoryTest {
                 .consumeNextWith(foundStockItem -> {
                     assertEquals(stockItem.getStockItemId(), foundStockItem.getStockItemId());
                     assertEquals(stockItem.getDescription(), foundStockItem.getDescription());
-                    assertEquals(stockItem.getSupplierId(), foundStockItem.getSupplierId());
-                    assertEquals(stockItem.getSalesQuantity(), foundStockItem.getSalesQuantity());
-                    assertEquals(stockItem.getPrice(), foundStockItem.getPrice());
+                    assertEquals(stockItem.getSupplierName(), foundStockItem.getSupplierName());
+                    assertEquals(stockItem.getQuantitySold(), foundStockItem.getQuantitySold());
+                    assertEquals(stockItem.getSellingPrice(), foundStockItem.getSellingPrice());
                 })
                 .verifyComplete();
     }
@@ -122,9 +122,9 @@ class StockItemRepositoryTest {
                 .consumeNextWith(foundStockItem -> {
                     assertEquals(stockItem.getStockItemId(), foundStockItem.getStockItemId());
                     assertEquals(stockItem.getDescription(), foundStockItem.getDescription());
-                    assertEquals(stockItem.getSupplierId(), foundStockItem.getSupplierId());
-                    assertEquals(stockItem.getSalesQuantity(), foundStockItem.getSalesQuantity());
-                    assertEquals(stockItem.getPrice(), foundStockItem.getPrice());
+                    assertEquals(stockItem.getSupplierName(), foundStockItem.getSupplierName());
+                    assertEquals(stockItem.getQuantitySold(), foundStockItem.getQuantitySold());
+                    assertEquals(stockItem.getSellingPrice(), foundStockItem.getSellingPrice());
                 })
                 .then(this::deleteStockItemById)
                 .verifyComplete();
@@ -135,9 +135,9 @@ class StockItemRepositoryTest {
         return StockItem.builder()
                 .stockItemId("297445493")
                 .description("Test plumbing item")
-                .supplierId(1005)
-                .salesQuantity(23)
-                .price(75.99)
+                .supplierName(1005)
+                .quantitySold(23)
+                .sellingPrice(75.99)
                 .build();
     }
 
@@ -145,9 +145,9 @@ class StockItemRepositoryTest {
         return StockItemDTO.builder()
                 .stockItemId("297445493")
                 .description("DTO test plumbing item")
-                .supplierId(2005)
-                .salesQuantity(53)
-                .price(25.99)
+                .supplierName(2005)
+                .quantitySold(53)
+                .sellingPrice(25.99)
                 .build();
     }
 

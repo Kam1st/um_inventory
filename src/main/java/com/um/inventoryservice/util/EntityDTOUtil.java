@@ -7,8 +7,6 @@ import com.um.inventoryservice.DataLayer.StockItemDTO;
 import lombok.Generated;
 import org.springframework.beans.BeanUtils;
 
-import java.util.Random;
-
 public class EntityDTOUtil {
 
     @Generated
@@ -18,9 +16,9 @@ public class EntityDTOUtil {
         StockItem stockItem = new StockItem();
         stockItem.setStockItemId(dto.getStockItemId());
         stockItem.setDescription(dto.getDescription());
-        stockItem.setPrice(dto.getPrice());
-        stockItem.setSupplierId(dto.getSupplierId());
-        stockItem.setSalesQuantity(dto.getSalesQuantity());
+        stockItem.setSellingPrice(dto.getSellingPrice());
+        stockItem.setSupplierName(dto.getSupplierName());
+        stockItem.setQuantitySold(dto.getQuantitySold());
         return stockItem;
     }
 

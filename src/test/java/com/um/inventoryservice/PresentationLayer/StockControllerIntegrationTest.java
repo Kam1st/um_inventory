@@ -51,9 +51,9 @@ class StockControllerIntegrationTest {
                 .expectBody()
                 .jsonPath("$[0].stockItemId").isEqualTo(stockItem.getStockItemId())
                 .jsonPath("$[0].description").isEqualTo(stockItem.getDescription())
-                .jsonPath("$[0].supplierId").isEqualTo(stockItem.getSupplierId())
-                .jsonPath("$[0].salesQuantity").isEqualTo(stockItem.getSalesQuantity())
-                .jsonPath("$[0].price").isEqualTo(stockItem.getPrice());
+                .jsonPath("$[0].supplierId").isEqualTo(stockItem.getSupplierName())
+                .jsonPath("$[0].salesQuantity").isEqualTo(stockItem.getQuantitySold())
+                .jsonPath("$[0].price").isEqualTo(stockItem.getSellingPrice());
     }
 
     @Test
@@ -76,9 +76,9 @@ class StockControllerIntegrationTest {
                 .expectBody(StockItemDTO.class)
                 .value((dto) -> {
                     assertThat(dto.getDescription()).isEqualTo(stockItem.getDescription());
-                    assertThat(dto.getSupplierId()).isEqualTo(stockItem.getSupplierId());
-                    assertThat(dto.getSalesQuantity()).isEqualTo(stockItem.getSalesQuantity());
-                    assertThat(dto.getPrice()).isEqualTo(stockItem.getPrice());
+                    assertThat(dto.getSupplierName()).isEqualTo(stockItem.getSupplierName());
+                    assertThat(dto.getQuantitySold()).isEqualTo(stockItem.getQuantitySold());
+                    assertThat(dto.getSellingPrice()).isEqualTo(stockItem.getSellingPrice());
                 });
 
     }
@@ -102,16 +102,16 @@ class StockControllerIntegrationTest {
                 .expectBody()
                 .jsonPath("$.stockItemId").isEqualTo(stockItem.getStockItemId())
                 .jsonPath("$.description").isEqualTo(stockItem.getDescription())
-                .jsonPath("$.salesQuantity").isEqualTo(stockItem.getSalesQuantity())
-                .jsonPath("$.price").isEqualTo(stockItem.getPrice())
-                .jsonPath("$.supplierId").isEqualTo(stockItem.getSupplierId());
+                .jsonPath("$.salesQuantity").isEqualTo(stockItem.getQuantitySold())
+                .jsonPath("$.price").isEqualTo(stockItem.getSellingPrice())
+                .jsonPath("$.supplierId").isEqualTo(stockItem.getSupplierName());
     }
 
     @Test
     void getStockItemByPrice() {
 
         StockItem stockItem = buildStockItem();
-        double STOCK_PRICE = stockItem.getPrice();
+        double STOCK_PRICE = stockItem.getSellingPrice();
 
         Publisher<StockItem> setup = stockItemRepository.deleteAll().thenMany(stockItemRepository.save(stockItem));
 
@@ -129,9 +129,9 @@ class StockControllerIntegrationTest {
                 .expectBody()
                 .jsonPath("$[0].stockItemId").isEqualTo(stockItem.getStockItemId())
                 .jsonPath("$[0].description").isEqualTo(stockItem.getDescription())
-                .jsonPath("$[0].supplierId").isEqualTo(stockItem.getSupplierId())
-                .jsonPath("$[0].salesQuantity").isEqualTo(stockItem.getSalesQuantity())
-                .jsonPath("$[0].price").isEqualTo(stockItem.getPrice());
+                .jsonPath("$[0].supplierId").isEqualTo(stockItem.getSupplierName())
+                .jsonPath("$[0].salesQuantity").isEqualTo(stockItem.getQuantitySold())
+                .jsonPath("$[0].price").isEqualTo(stockItem.getSellingPrice());
 
 
     }
@@ -155,9 +155,9 @@ class StockControllerIntegrationTest {
                 .expectBody()
                 .jsonPath("$.stockItemId").isEqualTo(stockItemDTO.getStockItemId())
                 .jsonPath("$.description").isEqualTo(stockItemDTO.getDescription())
-                .jsonPath("$.salesQuantity").isEqualTo(stockItemDTO.getSalesQuantity())
-                .jsonPath("$.price").isEqualTo(stockItemDTO.getPrice())
-                .jsonPath("$.supplierId").isEqualTo(stockItemDTO.getSupplierId());
+                .jsonPath("$.salesQuantity").isEqualTo(stockItemDTO.getQuantitySold())
+                .jsonPath("$.price").isEqualTo(stockItemDTO.getSellingPrice())
+                .jsonPath("$.supplierId").isEqualTo(stockItemDTO.getSupplierName());
 
     }
 
@@ -190,9 +190,9 @@ class StockControllerIntegrationTest {
         return StockItem.builder()
                 .stockItemId("297445493")
                 .description("Test plumbing item")
-                .supplierId(1005)
-                .salesQuantity(23)
-                .price(75.99)
+                .supplierName(1005)
+                .quantitySold(23)
+                .sellingPrice(75.99)
                 .build();
     }
 
@@ -200,9 +200,9 @@ class StockControllerIntegrationTest {
         return StockItem.builder()
                 .stockItemId("297445493")
                 .description("Test another item")
-                .supplierId(1005)
-                .salesQuantity(23)
-                .price(75.99)
+                .supplierName(1005)
+                .quantitySold(23)
+                .sellingPrice(75.99)
                 .build();
     }
 
@@ -210,9 +210,9 @@ class StockControllerIntegrationTest {
         return StockItemDTO.builder()
                 .stockItemId("297445493")
                 .description("DTO test plumbing item")
-                .supplierId(2005)
-                .salesQuantity(53)
-                .price(25.99)
+                .supplierName(2005)
+                .quantitySold(53)
+                .sellingPrice(25.99)
                 .build();
     }
 
