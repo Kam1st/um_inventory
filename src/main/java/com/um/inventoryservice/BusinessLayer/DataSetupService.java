@@ -1,12 +1,18 @@
 package com.um.inventoryservice.BusinessLayer;
 
+import com.sun.jdi.ObjectReference;
 import com.um.inventoryservice.DataLayer.InventoryItemDTO;
+import com.um.inventoryservice.DataLayer.OrderDTO;
 import com.um.inventoryservice.DataLayer.StockItemDTO;
+import com.um.inventoryservice.DataLayer.StockOrderDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class DataSetupService implements CommandLineRunner {
@@ -15,10 +21,31 @@ public class DataSetupService implements CommandLineRunner {
     StockItemService stockItemService;
 
     @Autowired
+    OrderService orderService;
+
+    @Autowired
     InventoryItemService inventoryItemService;
 
     @Override
     public void run(String... args) throws Exception {
+
+        OrderDTO o1 = new OrderDTO("1", new ArrayList<>());
+        OrderDTO o2 = new OrderDTO("2", new ArrayList<>());
+        OrderDTO o3 = new OrderDTO("2", new ArrayList<>());
+        StockOrderDTO so1 = new StockOrderDTO("2454544", "this is the test for stock item 1", 6);
+        StockOrderDTO so2 = new StockOrderDTO("7486504", "this is the test for stock item 2", 7);
+        StockOrderDTO so3 = new StockOrderDTO("9735693", "this is the test for stock item 3", 8);
+        StockOrderDTO so4 = new StockOrderDTO("7486504", "this is the test for stock item 3 x2", 3);
+        o1.getStockOrderDTOS().add(so1);
+        o2.getStockOrderDTOS().add(so2);
+        o3.getStockOrderDTOS().add(so3);
+        o3.getStockOrderDTOS().add(so4);
+
+        Flux.just(o1, o2, o3)
+                .flatMap(p -> orderService.insertOrder(Mono.just(p))
+                        .log(p.toString()))
+                .subscribe();
+
 
         StockItemDTO s1 = new StockItemDTO("2454544", "Test stock item 1", 1, 3864, 28.6, 28.6, 9);
         StockItemDTO s2 = new StockItemDTO("7486504", "Test stock item 2", 1, 9736, 25.99, 25.99, 5);

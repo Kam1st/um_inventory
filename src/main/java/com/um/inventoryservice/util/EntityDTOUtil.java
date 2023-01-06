@@ -1,9 +1,6 @@
 package com.um.inventoryservice.util;
 
-import com.um.inventoryservice.DataLayer.InventoryItem;
-import com.um.inventoryservice.DataLayer.InventoryItemDTO;
-import com.um.inventoryservice.DataLayer.StockItem;
-import com.um.inventoryservice.DataLayer.StockItemDTO;
+import com.um.inventoryservice.DataLayer.*;
 import lombok.Generated;
 import org.springframework.beans.BeanUtils;
 
@@ -32,6 +29,19 @@ public class EntityDTOUtil {
         StockItemDTO dto = new StockItemDTO();
         BeanUtils.copyProperties(stockItem, dto);
         return dto;
+    }
+
+    public static OrderDTO toDTO(Order order) {
+        OrderDTO dto = new OrderDTO();
+        BeanUtils.copyProperties(order, dto);
+        return dto;
+    }
+
+    public static Order toEntity(OrderDTO dto) {
+        Order order = new Order();
+        order.setStockOrderDTOS(dto.getStockOrderDTOS());
+        order.setClientId(dto.getClientId());
+        return order;
     }
 
     public static InventoryItem toEntity(InventoryItemDTO inventoryItemDTO) {
