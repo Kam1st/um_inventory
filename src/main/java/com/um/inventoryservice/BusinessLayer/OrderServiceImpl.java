@@ -3,9 +3,11 @@ package com.um.inventoryservice.BusinessLayer;
 import com.um.inventoryservice.DataLayer.*;
 import com.um.inventoryservice.util.EntityDTOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+@Service
 public class OrderServiceImpl implements OrderService {
 
     @Autowired
@@ -19,7 +21,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Flux<OrderDTO> getOrdersByStockItemId(String stockItemId){
-        return orderRepository.findOrdersByStockItemId(stockItemId)
+        return orderRepository.findAll()
+                .filter(o -> o.getStockOrderDTOS().containsKey(stockItemId))
                 .map(EntityDTOUtil::toDTO);
     }
 

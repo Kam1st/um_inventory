@@ -4,6 +4,7 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -16,5 +17,5 @@ public class Order {
     private String id;
 
     private String clientId;
-    private List<StockOrderDTO> stockOrderDTOS;
+    private Map<String, StockOrderDTO> stockOrderDTOS;
 }

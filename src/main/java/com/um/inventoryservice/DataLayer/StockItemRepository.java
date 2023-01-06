@@ -8,6 +8,6 @@ import reactor.core.publisher.Mono;
 @Repository
 public interface StockItemRepository extends ReactiveMongoRepository<StockItem, String> {
     Mono<StockItem> findStockItemByStockItemId(String stockItemId);
-    Flux<StockItem> findStockItemsByPrice(double price);
+    Flux<StockItem> findStockItemsBySellingPrice(double sellingPrice);
     Mono<Void> deleteStockItemByStockItemId(String stockItemId);
 }

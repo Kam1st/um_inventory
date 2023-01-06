@@ -7,5 +7,4 @@ import reactor.core.publisher.Flux;
 @Repository
 public interface OrderRepository extends ReactiveMongoRepository<Order, String>  {
 
-    Flux<Order> findOrdersByStockItemId(String stockItemId);
 }

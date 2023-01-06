@@ -3,6 +3,7 @@ package com.um.inventoryservice.DataLayer;
 import lombok.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -12,6 +13,6 @@ import java.util.List;
 public class OrderDTO {
 
     private String clientId;
-    private List<StockOrderDTO> stockOrderDTOS;
+    private Map<String, StockOrderDTO> stockOrderDTOS;
 
 }
