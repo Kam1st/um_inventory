@@ -93,6 +93,26 @@ class OrderControllerIntegrationTest {
                 .jsonPath("$[0].stockOrderDTOS").isNotEmpty();
     }
 
+    @Test
+    void getOrdersByClientId() {
+        Publisher<Order> setup = orderRepository.deleteAll().thenMany(orderRepository.save(order));
+
+        StepVerifier
+                .create(setup)
+                .expectNextCount(1)
+                .verifyComplete();
+
+        webTestClient
+                .get()
+                .uri("/orders/client/" + order.getClientId())
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON)
+                .expectBody()
+                .jsonPath("$[0].clientId").isEqualTo(order.getClientId())
+                .jsonPath("$[0].stockOrderDTOS").isNotEmpty();
+    }
 
     private Order buildOrder() {
         return Order.builder()
