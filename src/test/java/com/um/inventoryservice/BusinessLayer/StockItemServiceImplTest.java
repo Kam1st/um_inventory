@@ -141,6 +141,7 @@ class StockItemServiceImplTest {
                 .quantitySold(23)
                 .costPrice(75.48)
                 .sellingPrice(75.99)
+                .quantityInStock(9723)
                 .build();
     }
 
@@ -152,6 +153,7 @@ class StockItemServiceImplTest {
                 .quantitySold(53)
                 .costPrice(75.48)
                 .sellingPrice(25.99)
+                .quantityInStock(9723)
                 .build();
     }
 
