@@ -31,5 +31,11 @@ public class OrderController {
         return orderService.getOrdersByStockItemId(stockItemId);
     }
 
+    @GetMapping("/client/{clientId}")
+    public Flux<OrderDTO> getOrdersByClientId(@PathVariable String clientId) {
+        return orderService.getOrdersByClientId(clientId);
+    }
+
+
 
 }
