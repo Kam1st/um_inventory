@@ -60,6 +60,23 @@ class OrderServiceImplTest {
                 })
                 .verifyComplete();
     }
+
+    @Test
+    void getOrdersByClientId() {
+
+        when(orderRepository.findOrdersByClientId(anyString())).thenReturn(Flux.just(order));
+
+        Flux<OrderDTO> orderDTO = orderService.getOrdersByClientId("");
+
+        StepVerifier
+                .create(orderDTO)
+                .consumeNextWith(foundOrder ->{
+                    assertEquals(order.getClientId(), foundOrder.getClientId());
+                    assertEquals(order.getStockOrderDTOS().size(), foundOrder.getStockOrderDTOS().size());
+                })
+                .verifyComplete();
+    }
+
     @Test
     void insertOrder() {
 

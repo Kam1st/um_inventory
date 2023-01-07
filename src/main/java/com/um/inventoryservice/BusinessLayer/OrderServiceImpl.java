@@ -34,8 +34,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Flux<OrderDTO> getOrdersByClientId(String stockItemId){
-        return orderRepository.findOrdersByClientId(stockItemId)
+    public Flux<OrderDTO> getOrdersByClientId(String clientId){
+        return orderRepository.findOrdersByClientId(clientId)
                 .map(EntityDTOUtil::toDTO);
     }
 }
