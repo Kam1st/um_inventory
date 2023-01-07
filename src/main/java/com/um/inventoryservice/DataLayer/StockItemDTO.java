@@ -14,5 +14,5 @@ public class StockItemDTO {
     private int quantitySold;
     private double costPrice;
     private double sellingPrice;
-    private int quantity;
+    private int quantityInStock;
 }

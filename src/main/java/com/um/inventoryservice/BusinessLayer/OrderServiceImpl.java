@@ -32,4 +32,10 @@ public class OrderServiceImpl implements OrderService {
                 .flatMap((orderRepository::save))
                 .map(EntityDTOUtil::toDTO);
     }
+
+    @Override
+    public Flux<OrderDTO> getOrdersByClientId(String clientId){
+        return orderRepository.findOrdersByClientId(clientId)
+                .map(EntityDTOUtil::toDTO);
+    }
 }
