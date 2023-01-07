@@ -17,6 +17,7 @@ public class EntityDTOUtil {
         stockItem.setCostPrice(dto.getCostPrice());
         stockItem.setSupplierName(dto.getSupplierName());
         stockItem.setQuantitySold(dto.getQuantitySold());
+        stockItem.setQuantityInStock(dto.getQuantityInStock());
         return stockItem;
     }
 
