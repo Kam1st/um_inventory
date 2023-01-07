@@ -37,6 +37,23 @@ class OrderRepositoryTest {
                 .expectNextCount(1)
                 .verifyComplete();
     }
+
+    @Test
+    void findOrdersByClientId() {
+
+        Publisher<Order> setup = orderRepository.deleteAll().thenMany(orderRepository.save(order));
+        Publisher<Order> find = orderRepository.findOrdersByClientId(order.getClientId());
+
+        StepVerifier
+                .create(setup)
+                .expectNextCount(1)
+                .verifyComplete();
+
+        StepVerifier
+                .create(find)
+                .expectNextCount(1)
+                .verifyComplete();
+    }
     private Order buildOrder() {
         return Order.builder()
                 .clientId("297445493")
