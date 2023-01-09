@@ -5,6 +5,7 @@ import com.um.inventoryservice.DataLayer.InventoryItemDTO;
 import com.um.inventoryservice.DataLayer.OrderDTO;
 import com.um.inventoryservice.DataLayer.StockItemDTO;
 import com.um.inventoryservice.DataLayer.StockOrderDTO;
+import com.um.inventoryservice.DataLayer.ClientDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,9 @@ public class DataSetupService implements CommandLineRunner {
 
     @Autowired
     InventoryItemService inventoryItemService;
+
+    @Autowired
+    ClientService clientService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -80,5 +84,13 @@ public class DataSetupService implements CommandLineRunner {
 //                        .log(p.toString()))
 //                .subscribe();
 
+
+        ClientDTO c1 = new ClientDTO("Bob Ross","John Doe","Somewhere","1234567890");
+        ClientDTO c2 = new ClientDTO("Bob Ross's brother","John Doe","Somewhere","1234567891");
+
+        Flux.just(c1,c2)
+                .flatMap(c -> clientService.createClient(Mono.just(c))
+                        .log(c.toString()))
+                .subscribe();
     }
 }
