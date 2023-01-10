@@ -4,6 +4,9 @@ import com.um.inventoryservice.DataLayer.*;
 import lombok.Generated;
 import org.springframework.beans.BeanUtils;
 
+import java.util.Random;
+import java.util.UUID;
+
 public class EntityDTOUtil {
 
     @Generated
@@ -60,10 +63,26 @@ public class EntityDTOUtil {
         BeanUtils.copyProperties(inventoryItem, inventoryItemDTO);
         return inventoryItemDTO;
     }
+    public static ClientDTO toDTO(Client client) {
+        ClientDTO dto = new ClientDTO();
+        dto.setClientId(client.getClientId());
+        dto.setClientName(client.getClientName());
+        dto.setClientEmployeeName(client.getClientEmployeeName());
+        dto.setClientAddress(client.getClientAddress());
+        dto.setClientPhone(client.getClientPhone());
+        return dto;
+    }
+    public static Client toEntity(ClientDTO dto) {
+        Client client = new Client();
+        client.setClientId(dto.getClientId());
+        client.setClientName(dto.getClientName());
+        client.setClientEmployeeName(dto.getClientEmployeeName());
+        client.setClientAddress(dto.getClientAddress());
+        client.setClientPhone(dto.getClientPhone());
+        return client;
+    }
 
-//    public static String generateInventoryId() {
-//        Random random = new Random();
-//        int number = random.nextInt(99999);
-//        return "11" + (String.format("%05d", number));
-//    }
+    public static String generateUUID(){
+        return UUID.randomUUID().toString();
+    }
 }
