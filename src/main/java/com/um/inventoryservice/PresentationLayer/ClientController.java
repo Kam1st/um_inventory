@@ -31,4 +31,18 @@ public class ClientController {
                 .map(ResponseEntity::ok)
                 .defaultIfEmpty(ResponseEntity.notFound().build());
     }
+
+    @GetMapping("{clientId}")
+    public Mono<ResponseEntity<ClientDTO>> getClientById(@PathVariable String clientId) {
+        return clientService
+                .getClientById(clientId)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("{clientId}")
+    public Mono<Void> deleteClient(@PathVariable String clientId) {
+        return clientService.deleteClientById(clientId);
+    }
+
 }
