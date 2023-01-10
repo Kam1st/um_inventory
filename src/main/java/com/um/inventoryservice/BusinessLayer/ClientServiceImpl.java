@@ -40,4 +40,10 @@ public class ClientServiceImpl implements ClientService{
                 .flatMap(clientRepository::save)
                 .map(EntityDTOUtil::toDTO);
     }
+
+    @Override
+    public Mono<ClientDTO> getClientById(String clientId) {
+        return clientRepository.findClientByClientId(clientId)
+                .map(EntityDTOUtil::toDTO);
+    }
 }
