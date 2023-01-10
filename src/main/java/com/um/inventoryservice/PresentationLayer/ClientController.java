@@ -44,4 +44,5 @@ public class ClientController {
     public Mono<Void> deleteClient(@PathVariable String clientId) {
         return clientService.deleteClientById(clientId);
     }
+
 }
