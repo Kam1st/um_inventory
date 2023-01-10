@@ -15,4 +15,13 @@ public class StockItemDTO {
     private double costPrice;
     private double sellingPrice;
     private int quantityInStock;
+
+    public StockItemDTO(String description, String supplierName, int quantitySold, double costPrice, double sellingPrice,int quantityInStock) {
+        this.description = description;
+        this.supplierName = supplierName;
+        this.quantitySold = quantitySold;
+        this.costPrice = costPrice;
+        this.sellingPrice = sellingPrice;
+        this.quantityInStock = quantityInStock;
+    }
 }
