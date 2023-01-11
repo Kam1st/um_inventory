@@ -50,6 +50,11 @@ class ClientServiceImplTest {
                 .verifyComplete();
     }
 
+    @Test
+    void deleteClient() {
+        clientService.deleteClientById(CLIENT_ID);
+        verify(clientRepository, times(1)).deleteClientByClientId(CLIENT_ID);
+    }
 
     private Client buildClient() {
         return client.builder()
