@@ -49,6 +49,7 @@ public class ClientServiceImpl implements ClientService{
 
     @Override
     public Mono<Void> deleteClientById(String clientId) {
+
         return clientRepository.deleteClientByClientId(clientId);
     }
 }
