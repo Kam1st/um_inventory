@@ -46,4 +46,10 @@ public class ClientServiceImpl implements ClientService{
         return clientRepository.findClientByClientId(clientId)
                 .map(EntityDTOUtil::toDTO);
     }
+
+    @Override
+    public Mono<Void> deleteClientById(String clientId) {
+
+        return clientRepository.deleteClientByClientId(clientId);
+    }
 }

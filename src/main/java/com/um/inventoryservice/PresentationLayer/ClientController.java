@@ -39,4 +39,10 @@ public class ClientController {
                 .map(ResponseEntity::ok)
                 .defaultIfEmpty(ResponseEntity.notFound().build());
     }
+
+    @DeleteMapping("{clientId}")
+    public Mono<Void> deleteClient(@PathVariable String clientId) {
+        return clientService.deleteClientById(clientId);
+    }
+
 }
