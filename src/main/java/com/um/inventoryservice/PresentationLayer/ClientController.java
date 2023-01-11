@@ -21,10 +21,12 @@ public class ClientController {
     public Flux<ClientDTO> getAllClients() {
         return clientService.getAll();
     }
+
     @PostMapping
     public Mono<ClientDTO> createClient(@RequestBody Mono<ClientDTO> clientDTOMono) {
         return clientService.createClient(clientDTOMono);
     }
+
     @PutMapping("{clientId}")
     public Mono<ResponseEntity<ClientDTO>> updateClient(@PathVariable String clientId, @RequestBody Mono<ClientDTO> clientDTOMono) {
         return clientService.updateClient(clientId, clientDTOMono)
@@ -44,5 +46,4 @@ public class ClientController {
     public Mono<Void> deleteClient(@PathVariable String clientId) {
         return clientService.deleteClientById(clientId);
     }
-
 }

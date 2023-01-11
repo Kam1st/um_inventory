@@ -8,6 +8,5 @@ import reactor.core.publisher.Mono;
 public interface ClientRepository extends ReactiveMongoRepository<Client, String> {
 
     Mono<Client> findClientByClientId(String clientId);
-
     Mono<Void> deleteClientByClientId(String clientId);
 }

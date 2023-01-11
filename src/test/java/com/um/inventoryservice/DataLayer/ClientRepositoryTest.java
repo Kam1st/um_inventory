@@ -45,7 +45,23 @@ class ClientRepositoryTest {
                 })
 
                 .verifyComplete();
+    }
 
+    @Test
+    public void deleteClientById() {
+
+        Publisher<Client> setup = clientRepository.deleteAll().thenMany(clientRepository.save(buildClient()));
+        StepVerifier
+                .create(setup)
+                .consumeNextWith(foundClient -> {
+                    assertEquals(client.getClientId(), foundClient.getClientId());
+                    assertEquals(client.getClientName(), foundClient.getClientName());
+                    assertEquals(client.getClientEmployeeName(), foundClient.getClientEmployeeName());
+                    assertEquals(client.getClientAddress(), foundClient.getClientAddress());
+                    assertEquals(client.getClientPhone(), foundClient.getClientPhone());
+                })
+                .then(this::deleteClientById)
+                .verifyComplete();
     }
 
     private Client buildClient() {

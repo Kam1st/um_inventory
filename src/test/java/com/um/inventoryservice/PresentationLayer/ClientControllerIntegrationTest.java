@@ -3,6 +3,7 @@ package com.um.inventoryservice.PresentationLayer;
 import com.um.inventoryservice.DataLayer.Client;
 import com.um.inventoryservice.DataLayer.ClientDTO;
 import com.um.inventoryservice.DataLayer.ClientRepository;
+import com.um.inventoryservice.DataLayer.StockItem;
 import org.junit.jupiter.api.Test;
 import org.reactivestreams.Publisher;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,24 @@ class ClientControllerIntegrationTest {
                 .jsonPath("$.clientEmployeeName").isEqualTo(client.getClientEmployeeName())
                 .jsonPath("$.clientAddress").isEqualTo(client.getClientAddress())
                 .jsonPath("$.clientPhone").isEqualTo(client.getClientPhone());
+    }
+
+    @Test
+    void deleteClient() {
+        Publisher<Client> setup = clientRepository.deleteAll().thenMany(clientRepository.save(client));
+
+        StepVerifier
+                .create(setup)
+                .expectNextCount(1)
+                .verifyComplete();
+
+        webTestClient
+                .delete()
+                .uri("/clients/" + CLIENT_ID)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody();
     }
 
 
