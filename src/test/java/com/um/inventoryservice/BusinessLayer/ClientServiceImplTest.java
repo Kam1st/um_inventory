@@ -1,14 +1,12 @@
 package com.um.inventoryservice.BusinessLayer;
 
-import com.um.inventoryservice.DataLayer.Client;
-import com.um.inventoryservice.DataLayer.ClientDTO;
-import com.um.inventoryservice.DataLayer.ClientRepository;
-import com.um.inventoryservice.DataLayer.StockItemDTO;
+import com.um.inventoryservice.DataLayer.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
@@ -31,6 +29,52 @@ class ClientServiceImplTest {
 
     String CLIENT_ID = clientDTO.getClientId();
 
+    @Test
+    void getAllClients(){
+
+        when(clientRepository.findAll()).thenReturn(Flux.just(client));
+
+        Flux<ClientDTO> clientDTOFlux = clientService.getAll();
+
+        StepVerifier
+                .create(clientDTOFlux)
+                .consumeNextWith(foundClient ->{
+                    assertEquals(client.getClientId(), foundClient.getClientId());
+                    assertEquals(client.getClientName(), foundClient.getClientName());
+                    assertEquals(client.getClientEmployeeName(), foundClient.getClientEmployeeName());
+                    assertEquals(client.getClientAddress(), foundClient.getClientAddress());
+                    assertEquals(client.getClientPhone(),foundClient.getClientPhone());
+                })
+                .verifyComplete();
+    }
+    @Test
+    void insertClient() {
+
+        clientService.createClient(Mono.just(clientDTO))
+                .map(clientDTO1 -> {
+                    assertEquals(clientDTO1.getClientId(), client.getClientId());
+                    assertEquals(clientDTO1.getClientName(), client.getClientName());
+                    assertEquals(clientDTO1.getClientEmployeeName(), client.getClientEmployeeName());
+                    assertEquals(clientDTO1.getClientAddress(), client.getClientAddress());
+                    assertEquals(clientDTO1.getClientPhone(),client.getClientPhone());
+                    return clientDTO1;
+                });
+    }
+    @Test
+    void updateStockItem() {
+        when(clientRepository.save(any(Client.class))).thenReturn(Mono.just(client));
+
+        when(clientRepository.findClientByClientId(anyString())).thenReturn(Mono.just(client));
+        clientService.updateClient(CLIENT_ID, (Mono.just(clientDTO)))
+                .map(clientDTO1 -> {
+                    assertEquals(clientDTO1.getClientId(), clientDTO.getClientId());
+                    assertEquals(clientDTO1.getClientName(), clientDTO.getClientName());
+                    assertEquals(clientDTO1.getClientEmployeeName(), clientDTO.getClientEmployeeName());
+                    assertEquals(clientDTO1.getClientAddress(), clientDTO.getClientAddress());
+                    assertEquals(clientDTO1.getClientPhone(),clientDTO.getClientPhone());
+                    return clientDTO1;
+                });
+    }
     @Test
     void getClientById() {
         when(clientRepository.findClientByClientId(anyString())).thenReturn(Mono.just(client));
