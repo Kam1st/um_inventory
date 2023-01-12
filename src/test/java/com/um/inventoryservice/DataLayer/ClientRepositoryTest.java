@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.reactivestreams.Publisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
@@ -20,6 +21,32 @@ class ClientRepositoryTest {
 
     String CLIENT_ID = clientDTO.getClientId();
 
+    @Test
+    public void getAllClients() {
+        Client client = buildClient();
+
+        Publisher<Client> setup = clientRepository.deleteAll().thenMany(clientRepository.save(client));
+
+        StepVerifier
+                .create(setup)
+                .expectNextCount(1)
+                .verifyComplete();
+
+        Flux<Client> find = clientRepository.findAll();
+        Publisher<Client> composite = Mono
+                .from(setup)
+                .thenMany(find);
+
+        StepVerifier.create(composite)
+                .consumeNextWith(foundClient -> {
+                    assertEquals(client.getClientId(), foundClient.getClientId());
+                    assertEquals(client.getClientName(), foundClient.getClientName());
+                    assertEquals(client.getClientEmployeeName(), foundClient.getClientEmployeeName());
+                    assertEquals(client.getClientAddress(), foundClient.getClientAddress());
+                    assertEquals(client.getClientPhone(),foundClient.getClientPhone());
+                })
+                .verifyComplete();
+    }
     @Test
     void getClientById() {
         Publisher<Client> setup = clientRepository.deleteAll().thenMany(clientRepository.save(client));
@@ -45,7 +72,40 @@ class ClientRepositoryTest {
                 })
 
                 .verifyComplete();
+    }
+    @Test
+    public void insertClient() {
+        Client client = buildClient();
 
+        Publisher<Client> setup = clientRepository.deleteAll().thenMany(clientRepository.save(client));
+
+        StepVerifier
+                .create(setup)
+                .consumeNextWith(foundClient -> {
+                    assertEquals(client.getClientId(), foundClient.getClientId());
+                    assertEquals(client.getClientName(), foundClient.getClientName());
+                    assertEquals(client.getClientEmployeeName(), foundClient.getClientEmployeeName());
+                    assertEquals(client.getClientAddress(), foundClient.getClientAddress());
+                    assertEquals(client.getClientPhone(), foundClient.getClientPhone());
+                })
+                .verifyComplete();
+    }
+
+    @Test
+    public void deleteClientById() {
+
+        Publisher<Client> setup = clientRepository.deleteAll().thenMany(clientRepository.save(buildClient()));
+        StepVerifier
+                .create(setup)
+                .consumeNextWith(foundClient -> {
+                    assertEquals(client.getClientId(), foundClient.getClientId());
+                    assertEquals(client.getClientName(), foundClient.getClientName());
+                    assertEquals(client.getClientEmployeeName(), foundClient.getClientEmployeeName());
+                    assertEquals(client.getClientAddress(), foundClient.getClientAddress());
+                    assertEquals(client.getClientPhone(), foundClient.getClientPhone());
+                })
+                .then(this::deleteClientById)
+                .verifyComplete();
     }
 
     private Client buildClient() {

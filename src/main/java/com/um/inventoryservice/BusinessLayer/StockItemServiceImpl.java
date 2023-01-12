@@ -29,7 +29,7 @@ public class StockItemServiceImpl implements StockItemService{
     public Mono<StockItemDTO> insertStock(Mono<StockItemDTO> stockItemDTOMono) {
         return stockItemDTOMono
                 .map(EntityDTOUtil::toEntity)
-                .doOnNext(e -> e.setStockItemId(EntityDTOUtil.generateUUID()))
+                //.doOnNext(e -> e.setStockItemId(EntityDTOUtil.generateUUID()))
                 .flatMap((stockItemRepository::save))
                 .map(EntityDTOUtil::toDTO);
     }
