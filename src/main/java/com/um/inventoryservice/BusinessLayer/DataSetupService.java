@@ -87,8 +87,16 @@ public class DataSetupService implements CommandLineRunner {
 
         ClientDTO c1 = new ClientDTO("Bob Ross","John Doe","Somewhere","1234567890");
         ClientDTO c2 = new ClientDTO("Bob Ross's brother","John Doe","Somewhere","1234567891");
+        ClientDTO c3 = new ClientDTO("Bob Ross's sister","John Doe","Somewhere","1234567890");
+        ClientDTO c4 = new ClientDTO("Bob Ross's father","John Doe","Somewhere","1234567891");
+        ClientDTO c5 = new ClientDTO("Bob Ross's mother","John Doe","Somewhere","1234567890");
+        ClientDTO c6 = new ClientDTO("Bob Ross's other brother","John Doe","Somewhere","1234567891");
+        ClientDTO c7 = new ClientDTO("Bob Ross's uncle","John Doe","Somewhere","1234567890");
+        ClientDTO c8 = new ClientDTO("Bob Ross's aunt","John Doe","Somewhere","1234567891");
+        ClientDTO c9 = new ClientDTO("Bob Ross's child","John Doe","Somewhere","1234567890");
+        ClientDTO c10 = new ClientDTO("Bob Ross's clone","John Doe","Somewhere","1234567891");
 
-        Flux.just(c1,c2)
+        Flux.just(c1,c2,c3,c4,c5,c6,c7,c8,c9,c10)
                 .flatMap(c -> clientService.createClient(Mono.just(c))
                         .log(c.toString()))
                 .subscribe();
