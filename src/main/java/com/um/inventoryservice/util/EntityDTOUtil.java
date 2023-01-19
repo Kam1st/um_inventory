@@ -24,11 +24,6 @@ public class EntityDTOUtil {
         return stockItem;
     }
 
-//    public static String generateStockId() {
-//        Random random = new Random();
-//        int number = random.nextInt(99999);
-//        return "22" + (String.format("%05d", number));
-//    }
 
     public static StockItemDTO toDTO(StockItem stockItem) {
         StockItemDTO dto = new StockItemDTO();
@@ -81,6 +76,27 @@ public class EntityDTOUtil {
         client.setClientPhone(dto.getClientPhone());
         return client;
     }
+
+    public static EmployeeDTO toDTO(Employee employee) {
+        EmployeeDTO dto = new EmployeeDTO();
+        dto.setEmployeeId(employee.getEmployeeId());
+        dto.setEmployeeName(employee.getEmployeeName());
+        dto.setPosition(employee.getPosition());
+        dto.setStatus(employee.getStatus());
+        dto.setDateOfHire(employee.getDateOfHire());
+        return dto;
+    }
+
+    public static Employee toEntity(EmployeeDTO dto) {
+        Employee employee = new Employee();
+        employee.setEmployeeId(dto.getEmployeeId());
+        employee.setEmployeeName(dto.getEmployeeName());
+        employee.setPosition(dto.getPosition());
+        employee.setStatus(dto.getStatus());
+        employee.setDateOfHire(dto.getDateOfHire());
+        return employee;
+    }
+
 
     public static String generateUUID(){
         return UUID.randomUUID().toString();
