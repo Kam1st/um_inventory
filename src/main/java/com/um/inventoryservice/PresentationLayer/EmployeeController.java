@@ -4,6 +4,7 @@ import com.um.inventoryservice.BusinessLayer.EmployeeService;
 import com.um.inventoryservice.DataLayer.EmployeeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @CrossOrigin(origins = "http://localhost:8081")
@@ -13,6 +14,10 @@ public class EmployeeController {
     @Autowired
     EmployeeService employeeService;
 
+    @GetMapping()
+    public Flux<EmployeeDTO> getAllEmployees() {
+        return employeeService.getAll();
+    }
     @PostMapping
     public Mono<EmployeeDTO> insertEmployee(@RequestBody Mono<EmployeeDTO> employeeDTOMono) {
         return employeeService.insertEmployee(employeeDTOMono);
