@@ -1,11 +1,9 @@
 package com.um.inventoryservice.BusinessLayer;
 
-import com.sun.jdi.ObjectReference;
-import com.um.inventoryservice.DataLayer.InventoryItemDTO;
+import com.um.inventoryservice.DataLayer.ClientDTO;
 import com.um.inventoryservice.DataLayer.OrderDTO;
 import com.um.inventoryservice.DataLayer.StockItemDTO;
 import com.um.inventoryservice.DataLayer.StockOrderDTO;
-import com.um.inventoryservice.DataLayer.ClientDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
@@ -13,8 +11,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 @Service
 public class DataSetupService implements CommandLineRunner {
