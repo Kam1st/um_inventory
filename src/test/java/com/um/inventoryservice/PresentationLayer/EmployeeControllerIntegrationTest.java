@@ -27,6 +27,31 @@ class EmployeeControllerIntegrationTest {
     private EmployeeRepository employeeRepository;
 
     @Test
+    void getAllEmployees() {
+        Publisher<Employee> setup = employeeRepository.deleteAll().thenMany(employeeRepository.save(employee));
+
+        StepVerifier
+                .create(setup)
+                .expectNextCount(1)
+                .verifyComplete();
+
+        webTestClient
+                .get()
+                .uri("/employees")
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON)
+                .expectBody()
+                .jsonPath("$[0].employeeId").isEqualTo(employee.getEmployeeId())
+                .jsonPath("$[0].employeeName").isEqualTo(employee.getEmployeeName())
+                .jsonPath("$[0].position").isEqualTo(employee.getPosition())
+                .jsonPath("$[0].dateOfHire").isEqualTo(employee.getDateOfHire())
+                .jsonPath("$[0].status").isEqualTo(employee.getStatus());
+
+    }
+
+    @Test
     void insertEmployee() {
         Publisher<Void> setup = employeeRepository.deleteAll();
 

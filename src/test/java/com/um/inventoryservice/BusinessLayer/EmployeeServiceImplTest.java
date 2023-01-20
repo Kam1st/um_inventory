@@ -5,9 +5,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.test.StepVerifier;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 class EmployeeServiceImplTest {
@@ -22,6 +25,23 @@ class EmployeeServiceImplTest {
 
     EmployeeDTO employeeDTO = buildEmployeeDTO();
 
+    @Test
+    void getAllEmployees() {
+        when(employeeRepository.findAll()).thenReturn(Flux.just(employee));
+
+        Flux<EmployeeDTO> employeeDTOF = employeeService.getAll();
+
+        StepVerifier
+                .create(employeeDTOF)
+                .consumeNextWith(foundEmployee ->{
+                    assertEquals(employee.getEmployeeId(), foundEmployee.getEmployeeId());
+                    assertEquals(employee.getEmployeeName(), foundEmployee.getEmployeeName());
+                    assertEquals(employee.getPosition(), foundEmployee.getPosition());
+                    assertEquals(employee.getDateOfHire(), foundEmployee.getDateOfHire());
+                    assertEquals(employee.getStatus(), foundEmployee.getStatus());
+                })
+                .verifyComplete();
+    }
 
     @Test
     void insertEmployee() {

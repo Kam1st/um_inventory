@@ -1,9 +1,6 @@
 package com.um.inventoryservice.BusinessLayer;
 
-import com.um.inventoryservice.DataLayer.ClientDTO;
-import com.um.inventoryservice.DataLayer.OrderDTO;
-import com.um.inventoryservice.DataLayer.StockItemDTO;
-import com.um.inventoryservice.DataLayer.StockOrderDTO;
+import com.um.inventoryservice.DataLayer.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
@@ -26,6 +23,9 @@ public class DataSetupService implements CommandLineRunner {
 
     @Autowired
     ClientService clientService;
+
+    @Autowired
+    EmployeeService employeeService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -95,6 +95,23 @@ public class DataSetupService implements CommandLineRunner {
         Flux.just(c1,c2,c3,c4,c5,c6,c7,c8,c9,c10)
                 .flatMap(c -> clientService.createClient(Mono.just(c))
                         .log(c.toString()))
+                .subscribe();
+
+        EmployeeDTO e1 = new EmployeeDTO("1", "Kam", "CEO", "25th of January 2022", "Active");
+        EmployeeDTO e2 = new EmployeeDTO("2", "Clem", "CEO 2", "26th of January 2022", "Inactive");
+        EmployeeDTO e3 = new EmployeeDTO("3", "Max", "CEO 3", "27th of January 2022", "Active");
+        EmployeeDTO e4 = new EmployeeDTO("4", "Duncan", "CEO 4", "28th of January 2022", "Inactive");
+        EmployeeDTO e5 = new EmployeeDTO("5", "Stace", "CEO 5", "29th of January 2022", "Active");
+        EmployeeDTO e6 = new EmployeeDTO("6", "Elric", "CEO 6", "30th of January 2022", "Active");
+        EmployeeDTO e7 = new EmployeeDTO("7", "Bob", "CEO 7", "31st of January 2022", "Inactive");
+        EmployeeDTO e8 = new EmployeeDTO("8", "Ross", "CEO 8", "22nd of January 2022", "Active");
+        EmployeeDTO e9 = new EmployeeDTO("9", "John", "CEO 9", "23rd of January 2022", "Inactive");
+        EmployeeDTO e10 = new EmployeeDTO("10", "Doe", "CEO 10", "24th of January 2022", "Active");
+
+
+        Flux.just(e1,e2,e3,e4,e5,e6,e7,e8,e9,e10)
+                .flatMap(e -> employeeService.insertEmployee(Mono.just(e))
+                        .log(e.toString()))
                 .subscribe();
     }
 }
