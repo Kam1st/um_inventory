@@ -53,6 +53,13 @@ class EmployeeControllerIntegrationTest {
                 });
     }
 
+    @Test
+    void toStringBuildersEmployee() {
+        System.out.println(Employee.builder());
+        System.out.println(EmployeeDTO.builder());
+    }
+
+
     private Employee buildEmployee() {
         return Employee.builder()
                 .employeeId("1")

@@ -114,6 +114,13 @@ class OrderControllerIntegrationTest {
                 .jsonPath("$[0].stockOrderDTOS").isNotEmpty();
     }
 
+    @Test
+    void toStringBuilders() {
+        System.out.println(Order.builder());
+        System.out.println(OrderDTO.builder());
+        System.out.println(StockOrderDTO.builder());
+    }
+
     private Order buildOrder() {
         return Order.builder()
                 .clientId("297445493")
