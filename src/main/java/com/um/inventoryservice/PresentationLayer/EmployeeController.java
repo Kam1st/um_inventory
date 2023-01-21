@@ -3,6 +3,7 @@ package com.um.inventoryservice.PresentationLayer;
 import com.um.inventoryservice.BusinessLayer.EmployeeService;
 import com.um.inventoryservice.DataLayer.EmployeeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -21,6 +22,13 @@ public class EmployeeController {
     @PostMapping
     public Mono<EmployeeDTO> insertEmployee(@RequestBody Mono<EmployeeDTO> employeeDTOMono) {
         return employeeService.insertEmployee(employeeDTOMono);
+    }
+
+    @PutMapping("{employeeId}")
+    public Mono<ResponseEntity<EmployeeDTO>> updateEMployee(@PathVariable String employeeId, @RequestBody Mono<EmployeeDTO> employeeDTOMono){
+      return employeeService.updateEmployee(employeeId, employeeDTOMono)
+              .map(ResponseEntity::ok)
+              .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 }
 

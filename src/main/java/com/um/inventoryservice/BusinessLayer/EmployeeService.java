@@ -9,4 +9,6 @@ public interface EmployeeService {
 
     Flux<EmployeeDTO> getAll();
     Mono<EmployeeDTO> insertEmployee(Mono<EmployeeDTO> employeeDTOMono);
+
+    Mono<EmployeeDTO> updateEmployee(String employeeId, Mono<EmployeeDTO> employeeDTOMono);
 }
