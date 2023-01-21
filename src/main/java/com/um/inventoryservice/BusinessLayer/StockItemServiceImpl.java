@@ -4,6 +4,7 @@ import com.um.inventoryservice.DataLayer.StockItemDTO;
 import com.um.inventoryservice.DataLayer.StockItemRepository;
 import com.um.inventoryservice.util.EntityDTOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -49,6 +50,12 @@ public class StockItemServiceImpl implements StockItemService{
                         .doOnNext(e -> e.setId(p.getId()))
                 )
                 .flatMap(stockItemRepository::save)
+                .map(EntityDTOUtil::toDTO);
+    }
+
+    @Override
+    public Flux<StockItemDTO> getAllStockItemsByQuantitySold() {
+        return stockItemRepository.findAll(Sort.by(Sort.Direction.DESC,"quantitySold"))
                 .map(EntityDTOUtil::toDTO);
     }
 

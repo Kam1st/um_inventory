@@ -6,6 +6,7 @@ import reactor.core.publisher.Mono;
 
 public interface StockItemService {
     Flux<StockItemDTO> getAll();
+    Flux<StockItemDTO> getAllStockItemsByQuantitySold();
     Mono<StockItemDTO> insertStock(Mono<StockItemDTO> stockItemMono);
     Mono<StockItemDTO> getStockItemById(String stockItemId);
     Flux<StockItemDTO> getStockItemsByPrice(double price);

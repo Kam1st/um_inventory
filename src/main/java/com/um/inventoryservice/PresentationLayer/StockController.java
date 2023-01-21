@@ -22,6 +22,11 @@ public class StockController {
         return stockItemService.getAll();
     }
 
+    @GetMapping("/quantitySold")
+    public Flux<StockItemDTO> getAllStockItemsByQuantitySold() {
+        return stockItemService.getAllStockItemsByQuantitySold();
+    }
+
     @GetMapping("{stockItemId}")
     public Mono<ResponseEntity<StockItemDTO>> getStockItemById(@PathVariable String stockItemId) {
         return stockItemService

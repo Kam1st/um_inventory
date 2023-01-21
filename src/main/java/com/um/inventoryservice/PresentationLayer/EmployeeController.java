@@ -25,7 +25,7 @@ public class EmployeeController {
     }
 
     @PutMapping("{employeeId}")
-    public Mono<ResponseEntity<EmployeeDTO>> updateEMployee(@PathVariable String employeeId, @RequestBody Mono<EmployeeDTO> employeeDTOMono){
+    public Mono<ResponseEntity<EmployeeDTO>> updateEmployee(@PathVariable String employeeId, @RequestBody Mono<EmployeeDTO> employeeDTOMono){
       return employeeService.updateEmployee(employeeId, employeeDTOMono)
               .map(ResponseEntity::ok)
               .defaultIfEmpty(ResponseEntity.notFound().build());
