@@ -24,8 +24,16 @@ public class EmployeeController {
         return employeeService.insertEmployee(employeeDTOMono);
     }
 
+    @GetMapping("{employeeId}")
+    public Mono<ResponseEntity<EmployeeDTO>> getEmployeeById(@PathVariable String employeeId) {
+        return employeeService
+                .getEmployeeById(employeeId)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
+    }
+
     @PutMapping("{employeeId}")
-    public Mono<ResponseEntity<EmployeeDTO>> updateEMployee(@PathVariable String employeeId, @RequestBody Mono<EmployeeDTO> employeeDTOMono){
+    public Mono<ResponseEntity<EmployeeDTO>> updateEmployee(@PathVariable String employeeId, @RequestBody Mono<EmployeeDTO> employeeDTOMono){
       return employeeService.updateEmployee(employeeId, employeeDTOMono)
               .map(ResponseEntity::ok)
               .defaultIfEmpty(ResponseEntity.notFound().build());
