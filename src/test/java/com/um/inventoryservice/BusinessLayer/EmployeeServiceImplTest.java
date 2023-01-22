@@ -10,6 +10,8 @@ import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -24,6 +26,8 @@ class EmployeeServiceImplTest {
     Employee employee = buildEmployee();
 
     EmployeeDTO employeeDTO = buildEmployeeDTO();
+
+    String EMPLOYEE_ID = employeeDTO.getEmployeeId();
 
     @Test
     void getAllEmployees() {
@@ -57,6 +61,40 @@ class EmployeeServiceImplTest {
                 });
     }
 
+    @Test
+    void getEmployeeById() {
+        when(employeeRepository.findEmployeeByEmployeeId(anyString())).thenReturn(Mono.just(employee));
+
+        Mono <EmployeeDTO> employeeDTOMono = employeeService.getEmployeeById(EMPLOYEE_ID);
+
+        StepVerifier
+                .create(employeeDTOMono)
+                .consumeNextWith(foundEmployee -> {
+                    assertEquals(employee.getEmployeeId(), foundEmployee.getEmployeeId());
+                    assertEquals(employee.getEmployeeName(), foundEmployee.getEmployeeName());
+                    assertEquals(employee.getPosition(), foundEmployee.getPosition());
+                    assertEquals(employee.getDateOfHire(), foundEmployee.getDateOfHire());
+                    assertEquals(employee.getStatus(), foundEmployee.getStatus());
+                })
+
+                .verifyComplete();
+    }
+
+    @Test
+    void updateEmployee() {
+        when(employeeRepository.save(any(Employee.class))).thenReturn(Mono.just(employee));
+
+        when(employeeRepository.findEmployeeByEmployeeId(anyString())).thenReturn(Mono.just(employee));
+        employeeService.updateEmployee(EMPLOYEE_ID, (Mono.just(employeeDTO)))
+                .map(foundEmployee -> {
+                   assertEquals(foundEmployee.getEmployeeId(), employeeDTO.getEmployeeId());
+                    assertEquals(foundEmployee.getEmployeeName(), employeeDTO.getEmployeeName());
+                    assertEquals(foundEmployee.getPosition(), employeeDTO.getPosition());
+                    assertEquals(foundEmployee.getDateOfHire(), employeeDTO.getDateOfHire());
+                    assertEquals(foundEmployee.getStatus(), employeeDTO.getStatus());
+                    return foundEmployee;
+                });
+    }
 
 
     private Employee buildEmployee() {
