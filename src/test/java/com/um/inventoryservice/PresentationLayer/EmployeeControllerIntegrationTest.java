@@ -20,6 +20,9 @@ class EmployeeControllerIntegrationTest {
 
     private final Employee employee = buildEmployee();
 
+    private final EmployeeDTO employeeDTO = buildEmployeeDTO();
+    String EMPLOYEE_ID = employeeDTO.getEmployeeId();
+
     @Autowired
     private WebTestClient webTestClient;
 
@@ -79,6 +82,56 @@ class EmployeeControllerIntegrationTest {
     }
 
     @Test
+    void getEmployeeById() {
+        Publisher<Employee> setup = employeeRepository.deleteAll().thenMany(employeeRepository.save(employee));
+
+        StepVerifier
+                .create(setup)
+                .expectNextCount(1)
+                .verifyComplete();
+
+        webTestClient
+                .get()
+                .uri("/employees/" + EMPLOYEE_ID)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON)
+                .expectBody()
+                .jsonPath("$.employeeId").isEqualTo(employeeDTO.getEmployeeId())
+                .jsonPath("$.employeeName").isEqualTo(employeeDTO.getEmployeeName())
+                .jsonPath("$.position").isEqualTo(employeeDTO.getPosition())
+                .jsonPath("$.dateOfHire").isEqualTo(employeeDTO.getDateOfHire())
+                .jsonPath("$.status").isEqualTo(employeeDTO.getStatus());
+
+    }
+
+    @Test
+    void updateEmployee() {
+        Publisher<Employee> setup = employeeRepository.deleteAll().thenMany(employeeRepository.save(employee));
+
+        StepVerifier
+                .create(setup)
+                .expectNextCount(1)
+                .verifyComplete();
+
+        webTestClient
+                .put()
+                .uri("/employees/" + EMPLOYEE_ID)
+                .body(Mono.just(employeeDTO), EmployeeDTO.class)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON)
+                .expectBody()
+                .jsonPath("$.employeeId").isEqualTo(employeeDTO.getEmployeeId())
+                .jsonPath("$.employeeName").isEqualTo(employeeDTO.getEmployeeName())
+                .jsonPath("$.position").isEqualTo(employeeDTO.getPosition())
+                .jsonPath("$.dateOfHire").isEqualTo(employeeDTO.getDateOfHire())
+                .jsonPath("$.status").isEqualTo(employeeDTO.getStatus());
+    }
+
+    @Test
     void toStringBuildersEmployee() {
         System.out.println(Employee.builder());
         System.out.println(EmployeeDTO.builder());
@@ -95,5 +148,13 @@ class EmployeeControllerIntegrationTest {
                 .build();
     }
 
-
+    private EmployeeDTO buildEmployeeDTO() {
+        return EmployeeDTO.builder()
+                .employeeId("1")
+                .employeeName("Kam")
+                .position("CEO")
+                .dateOfHire("25th of January 2022")
+                .status("Active")
+                .build();
+    }
 }
