@@ -12,7 +12,7 @@ import reactor.test.StepVerifier;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 class EmployeeServiceImplTest {
@@ -94,6 +94,12 @@ class EmployeeServiceImplTest {
                     assertEquals(foundEmployee.getStatus(), employeeDTO.getStatus());
                     return foundEmployee;
                 });
+    }
+
+    @Test
+    void deleteEmployee() {
+        employeeService.deleteEmployeeById(EMPLOYEE_ID);
+        verify(employeeRepository, times(1)).deleteEmployeeByEmployeeId(EMPLOYEE_ID);
     }
 
 
