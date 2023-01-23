@@ -38,5 +38,10 @@ public class EmployeeController {
               .map(ResponseEntity::ok)
               .defaultIfEmpty(ResponseEntity.notFound().build());
     }
+
+    @DeleteMapping("{employeeId}")
+    public Mono<Void> deleteEmployee(@PathVariable String employeeId) {
+        return employeeService.deleteEmployeeById(employeeId);
+    }
 }
 

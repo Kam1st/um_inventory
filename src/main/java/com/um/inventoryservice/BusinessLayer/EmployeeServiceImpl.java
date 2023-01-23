@@ -40,9 +40,13 @@ public class EmployeeServiceImpl implements EmployeeService{
                 .flatMap(e -> employeeDTOMono
                         .map(EntityDTOUtil::toEntity)
                         .doOnNext(x -> x.setEmployeeId(e.getEmployeeId()))
-                        .doOnNext(x -> x.setId(e.getId()))
                 )
                 .flatMap(employeeRepository::save)
                 .map(EntityDTOUtil::toDTO);
+    }
+
+    @Override
+    public Mono<Void> deleteEmployeeById(String employeeId) {
+        return employeeRepository.deleteEmployeeByEmployeeId(employeeId);
     }
 }
