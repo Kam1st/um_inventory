@@ -132,6 +132,23 @@ class EmployeeControllerIntegrationTest {
     }
 
     @Test
+    void deleteEmployee() {
+        Publisher<Employee> setup = employeeRepository.deleteAll().thenMany(employeeRepository.save(employee));
+
+        StepVerifier
+                .create(setup)
+                .expectNextCount(1)
+                .verifyComplete();
+
+        webTestClient
+                .delete()
+                .uri("/employees/" + EMPLOYEE_ID)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody();
+    }
+    @Test
     void toStringBuildersEmployee() {
         System.out.println(Employee.builder());
         System.out.println(EmployeeDTO.builder());
