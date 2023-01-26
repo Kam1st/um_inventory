@@ -97,6 +97,11 @@ public class EntityDTOUtil {
         return employee;
     }
 
+    public static String generateEmployeeString() {
+        Random random = new Random();
+        int number = random.nextInt(9999);
+        return (String.format("%05d", number));
+    }
 
     public static String generateUUID(){
         return UUID.randomUUID().toString();

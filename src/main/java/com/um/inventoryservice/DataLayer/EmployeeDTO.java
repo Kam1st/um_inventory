@@ -14,4 +14,10 @@ public class EmployeeDTO {
     private String dateOfHire;
     private String status;
 
+    public EmployeeDTO(String employeeName, String position, String dateOfHire, String status) {
+        this.employeeName = employeeName;
+        this.position = position;
+        this.dateOfHire = dateOfHire;
+        this.status = status;
+    }
 }

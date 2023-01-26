@@ -97,16 +97,16 @@ public class DataSetupService implements CommandLineRunner {
                         .log(c.toString()))
                 .subscribe();
 
-        EmployeeDTO e1 = new EmployeeDTO("1", "Kam", "CEO", "25th of January 2022", "Active");
-        EmployeeDTO e2 = new EmployeeDTO("2", "Clem", "CEO 2", "26th of January 2022", "Inactive");
-        EmployeeDTO e3 = new EmployeeDTO("3", "Max", "CEO 3", "27th of January 2022", "Active");
-        EmployeeDTO e4 = new EmployeeDTO("4", "Duncan", "CEO 4", "28th of January 2022", "Inactive");
-        EmployeeDTO e5 = new EmployeeDTO("5", "Stace", "CEO 5", "29th of January 2022", "Active");
-        EmployeeDTO e6 = new EmployeeDTO("6", "Elric", "CEO 6", "30th of January 2022", "Active");
-        EmployeeDTO e7 = new EmployeeDTO("7", "Bob", "CEO 7", "31st of January 2022", "Inactive");
-        EmployeeDTO e8 = new EmployeeDTO("8", "Ross", "CEO 8", "22nd of January 2022", "Active");
-        EmployeeDTO e9 = new EmployeeDTO("9", "John", "CEO 9", "23rd of January 2022", "Inactive");
-        EmployeeDTO e10 = new EmployeeDTO("10", "Doe", "CEO 10", "24th of January 2022", "Active");
+        EmployeeDTO e1 = new EmployeeDTO("Kam", "CEO", "25th of January 2022", "Active");
+        EmployeeDTO e2 = new EmployeeDTO("Clem", "CEO 2", "26th of January 2022", "Inactive");
+        EmployeeDTO e3 = new EmployeeDTO("Max", "CEO 3", "27th of January 2022", "Active");
+        EmployeeDTO e4 = new EmployeeDTO("Duncan", "CEO 4", "28th of January 2022", "Inactive");
+        EmployeeDTO e5 = new EmployeeDTO("Stace", "CEO 5", "29th of January 2022", "Active");
+        EmployeeDTO e6 = new EmployeeDTO("Elric", "CEO 6", "30th of January 2022", "Active");
+        EmployeeDTO e7 = new EmployeeDTO("Bob", "CEO 7", "31st of January 2022", "Inactive");
+        EmployeeDTO e8 = new EmployeeDTO("Ross", "CEO 8", "22nd of January 2022", "Active");
+        EmployeeDTO e9 = new EmployeeDTO("John", "CEO 9", "23rd of January 2022", "Inactive");
+        EmployeeDTO e10 = new EmployeeDTO("Doe", "CEO 10", "24th of January 2022", "Active");
 
 
         Flux.just(e1,e2,e3,e4,e5,e6,e7,e8,e9,e10)
