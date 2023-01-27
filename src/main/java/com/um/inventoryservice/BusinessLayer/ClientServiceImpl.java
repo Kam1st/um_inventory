@@ -2,7 +2,6 @@ package com.um.inventoryservice.BusinessLayer;
 
 import com.um.inventoryservice.DataLayer.ClientDTO;
 import com.um.inventoryservice.DataLayer.ClientRepository;
-import com.um.inventoryservice.DataLayer.StockItemDTO;
 import com.um.inventoryservice.util.EntityDTOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
