@@ -73,7 +73,6 @@ class EmployeeControllerIntegrationTest {
                 .expectHeader().contentType(MediaType.APPLICATION_JSON)
                 .expectBody(EmployeeDTO.class)
                 .value((dto) -> {
-                    assertEquals(dto.getEmployeeId(), employee.getEmployeeId());
                     assertEquals(dto.getEmployeeName(), employee.getEmployeeName());
                     assertEquals(dto.getPosition(), employee.getPosition());
                     assertEquals(dto.getDateOfHire(), employee.getDateOfHire());

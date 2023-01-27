@@ -24,9 +24,11 @@ public class EmployeeServiceImpl implements EmployeeService{
     public Mono<EmployeeDTO> insertEmployee(Mono<EmployeeDTO> employeeDTOMono) {
         return employeeDTOMono
                 .map(EntityDTOUtil::toEntity)
+                .doOnNext(e -> e.setEmployeeId(EntityDTOUtil.generateEmployeeString()))
                 .flatMap((employeeRepository::save))
                 .map(EntityDTOUtil::toDTO);
     }
+
 
     @Override
     public Mono<EmployeeDTO> getEmployeeById(String employeeId) {
