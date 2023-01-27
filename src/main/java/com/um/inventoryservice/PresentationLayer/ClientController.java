@@ -2,8 +2,6 @@ package com.um.inventoryservice.PresentationLayer;
 
 import com.um.inventoryservice.BusinessLayer.ClientService;
 import com.um.inventoryservice.DataLayer.ClientDTO;
-import com.um.inventoryservice.DataLayer.InventoryItemDTO;
-import com.um.inventoryservice.DataLayer.StockItemDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
