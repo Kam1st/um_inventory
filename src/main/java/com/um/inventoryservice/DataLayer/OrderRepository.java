@@ -10,5 +10,7 @@ public interface OrderRepository extends ReactiveMongoRepository<Order, String> 
 
     @Query("{'stockOrderDTOS.stockItemId': ?0}")
     Flux<Order> findOrdersByStockItemId(String stockItemId);
+    @Query("{'stockOrderDTOS.quantity': ?0}")
+    Flux<Order> findOrdersByQuantitySold(int quantity);
     Flux<Order> findOrdersByClientId(String clientId);
 }
