@@ -17,10 +17,6 @@ public class DataSetupService implements CommandLineRunner {
 
     @Autowired
     OrderService orderService;
-
-    @Autowired
-    InventoryItemService inventoryItemService;
-
     @Autowired
     ClientService clientService;
 
@@ -64,22 +60,6 @@ public class DataSetupService implements CommandLineRunner {
                         .log(p.toString()))
                 .subscribe();
 
-//        InventoryItemDTO inv1 = new InventoryItemDTO("1122222", new StockItemDTO("2454544", "Test stock item 1", 1, 3864, 28.6), 250);
-//        InventoryItemDTO inv2 = new InventoryItemDTO("1133333",new StockItemDTO("7486504", "Test stock item 2", 1, 9736, 25.99), 24);
-//        InventoryItemDTO inv3 = new InventoryItemDTO("1144444",new StockItemDTO("9735693", "Test stock item 3", 2, 7344, 39.6), 183);
-//        InventoryItemDTO inv4 = new InventoryItemDTO("1155555", new StockItemDTO("9736560", "Test stock item 4", 2, 3567, 25.99), 212);
-//        InventoryItemDTO inv5 = new InventoryItemDTO("1166666", new StockItemDTO("9576508", "Test stock item 5", 3, 6466, 63.6), 75);
-//        InventoryItemDTO inv6 = new InventoryItemDTO("1177777", new StockItemDTO("5875693", "Test stock item 6", 3, 6775, 25.99),195);
-//        InventoryItemDTO inv7 = new InventoryItemDTO("1188888", new StockItemDTO("4974659", "Test stock item 7", 4, 3456, 49.6),500);
-//        InventoryItemDTO inv8 = new InventoryItemDTO("1199999", new StockItemDTO("3085708", "Test stock item 8", 5, 8536, 25.99),795);
-//        InventoryItemDTO inv9 = new InventoryItemDTO("1135791", new StockItemDTO("9837058", "Test stock item 9", 5, 4674, 76.6),45);
-//        InventoryItemDTO inv10 = new InventoryItemDTO("1124680", new StockItemDTO("6387508", "Test stock item 10", 6, 5675, 25.99),325);
-//
-//        Flux.just(inv1, inv2, inv3, inv4, inv5, inv6, inv7, inv8, inv9, inv10)
-//                .flatMap(p -> inventoryItemService.insertInventoryItem(Mono.just(p))
-//                        .log(p.toString()))
-//                .subscribe();
-
 
         ClientDTO c1 = new ClientDTO("Bob Ross","John Doe","Somewhere","1234567890");
         ClientDTO c2 = new ClientDTO("Bob Ross's brother","John Doe","Somewhere","1234567891");
@@ -97,16 +77,16 @@ public class DataSetupService implements CommandLineRunner {
                         .log(c.toString()))
                 .subscribe();
 
-        EmployeeDTO e1 = new EmployeeDTO("1", "Kam", "CEO", "25th of January 2022", "Active");
-        EmployeeDTO e2 = new EmployeeDTO("2", "Clem", "CEO 2", "26th of January 2022", "Inactive");
-        EmployeeDTO e3 = new EmployeeDTO("3", "Max", "CEO 3", "27th of January 2022", "Active");
-        EmployeeDTO e4 = new EmployeeDTO("4", "Duncan", "CEO 4", "28th of January 2022", "Inactive");
-        EmployeeDTO e5 = new EmployeeDTO("5", "Stace", "CEO 5", "29th of January 2022", "Active");
-        EmployeeDTO e6 = new EmployeeDTO("6", "Elric", "CEO 6", "30th of January 2022", "Active");
-        EmployeeDTO e7 = new EmployeeDTO("7", "Bob", "CEO 7", "31st of January 2022", "Inactive");
-        EmployeeDTO e8 = new EmployeeDTO("8", "Ross", "CEO 8", "22nd of January 2022", "Active");
-        EmployeeDTO e9 = new EmployeeDTO("9", "John", "CEO 9", "23rd of January 2022", "Inactive");
-        EmployeeDTO e10 = new EmployeeDTO("10", "Doe", "CEO 10", "24th of January 2022", "Active");
+        EmployeeDTO e1 = new EmployeeDTO("Kam", "CEO", "25th of January 2022", "Active");
+        EmployeeDTO e2 = new EmployeeDTO("Clem", "CEO 2", "26th of January 2022", "Inactive");
+        EmployeeDTO e3 = new EmployeeDTO("Max", "CEO 3", "27th of January 2022", "Active");
+        EmployeeDTO e4 = new EmployeeDTO("Duncan", "CEO 4", "28th of January 2022", "Inactive");
+        EmployeeDTO e5 = new EmployeeDTO("Stace", "CEO 5", "29th of January 2022", "Active");
+        EmployeeDTO e6 = new EmployeeDTO("Elric", "CEO 6", "30th of January 2022", "Active");
+        EmployeeDTO e7 = new EmployeeDTO("Bob", "CEO 7", "31st of January 2022", "Inactive");
+        EmployeeDTO e8 = new EmployeeDTO("Ross", "CEO 8", "22nd of January 2022", "Active");
+        EmployeeDTO e9 = new EmployeeDTO("John", "CEO 9", "23rd of January 2022", "Inactive");
+        EmployeeDTO e10 = new EmployeeDTO("Doe", "CEO 10", "24th of January 2022", "Active");
 
 
         Flux.just(e1,e2,e3,e4,e5,e6,e7,e8,e9,e10)

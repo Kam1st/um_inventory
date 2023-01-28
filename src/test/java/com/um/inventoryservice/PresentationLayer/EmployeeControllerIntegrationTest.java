@@ -73,7 +73,6 @@ class EmployeeControllerIntegrationTest {
                 .expectHeader().contentType(MediaType.APPLICATION_JSON)
                 .expectBody(EmployeeDTO.class)
                 .value((dto) -> {
-                    assertEquals(dto.getEmployeeId(), employee.getEmployeeId());
                     assertEquals(dto.getEmployeeName(), employee.getEmployeeName());
                     assertEquals(dto.getPosition(), employee.getPosition());
                     assertEquals(dto.getDateOfHire(), employee.getDateOfHire());
@@ -131,6 +130,23 @@ class EmployeeControllerIntegrationTest {
                 .jsonPath("$.status").isEqualTo(employeeDTO.getStatus());
     }
 
+    @Test
+    void deleteEmployee() {
+        Publisher<Employee> setup = employeeRepository.deleteAll().thenMany(employeeRepository.save(employee));
+
+        StepVerifier
+                .create(setup)
+                .expectNextCount(1)
+                .verifyComplete();
+
+        webTestClient
+                .delete()
+                .uri("/employees/" + EMPLOYEE_ID)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody();
+    }
     @Test
     void toStringBuildersEmployee() {
         System.out.println(Employee.builder());

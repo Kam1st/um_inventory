@@ -44,20 +44,6 @@ public class EntityDTOUtil {
         order.setClientId(dto.getClientId());
         return order;
     }
-
-    public static InventoryItem toEntity(InventoryItemDTO inventoryItemDTO) {
-        InventoryItem inventoryItem = new InventoryItem();
-        inventoryItem.setInventoryItemId(inventoryItemDTO.getInventoryItemId());
-        inventoryItem.setStockItemDTO(inventoryItemDTO.getStockItemDTO());
-        inventoryItem.setQuantityInStock(inventoryItemDTO.getQuantityInStock());
-        return inventoryItem;
-    }
-
-    public static InventoryItemDTO toDTO(InventoryItem inventoryItem) {
-        InventoryItemDTO inventoryItemDTO = new InventoryItemDTO();
-        BeanUtils.copyProperties(inventoryItem, inventoryItemDTO);
-        return inventoryItemDTO;
-    }
     public static ClientDTO toDTO(Client client) {
         ClientDTO dto = new ClientDTO();
         dto.setClientId(client.getClientId());
@@ -97,6 +83,11 @@ public class EntityDTOUtil {
         return employee;
     }
 
+    public static String generateEmployeeString() {
+        Random random = new Random();
+        int number = random.nextInt(9999);
+        return (String.format("%05d", number));
+    }
 
     public static String generateUUID(){
         return UUID.randomUUID().toString();

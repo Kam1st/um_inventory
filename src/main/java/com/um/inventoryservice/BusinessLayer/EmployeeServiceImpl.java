@@ -24,9 +24,11 @@ public class EmployeeServiceImpl implements EmployeeService{
     public Mono<EmployeeDTO> insertEmployee(Mono<EmployeeDTO> employeeDTOMono) {
         return employeeDTOMono
                 .map(EntityDTOUtil::toEntity)
+                .doOnNext(e -> e.setEmployeeId(EntityDTOUtil.generateEmployeeString()))
                 .flatMap((employeeRepository::save))
                 .map(EntityDTOUtil::toDTO);
     }
+
 
     @Override
     public Mono<EmployeeDTO> getEmployeeById(String employeeId) {
@@ -40,9 +42,13 @@ public class EmployeeServiceImpl implements EmployeeService{
                 .flatMap(e -> employeeDTOMono
                         .map(EntityDTOUtil::toEntity)
                         .doOnNext(x -> x.setEmployeeId(e.getEmployeeId()))
-                        .doOnNext(x -> x.setId(e.getId()))
                 )
                 .flatMap(employeeRepository::save)
                 .map(EntityDTOUtil::toDTO);
+    }
+
+    @Override
+    public Mono<Void> deleteEmployeeById(String employeeId) {
+        return employeeRepository.deleteEmployeeByEmployeeId(employeeId);
     }
 }
