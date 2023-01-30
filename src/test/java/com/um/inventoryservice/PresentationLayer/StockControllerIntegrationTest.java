@@ -137,7 +137,33 @@ class StockControllerIntegrationTest {
                 .jsonPath("$[0].sellingPrice").isEqualTo(stockItem.getSellingPrice())
                 .jsonPath("$[0].costPrice").isEqualTo(stockItem.getCostPrice());
     }
+    @Test
+    void getStockItemsBySupplierName() {
 
+        StockItem stockItem = buildStockItem();
+        String SUPPLIER_NAME = stockItem.getSupplierName();
+
+        Publisher<StockItem> setup = stockItemRepository.deleteAll().thenMany(stockItemRepository.save(stockItem));
+
+        StepVerifier
+                .create(setup)
+                .expectNextCount(1)
+                .verifyComplete();
+
+        webTestClient.get()
+                .uri("/stocks/supplierName/" + SUPPLIER_NAME)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON)
+                .expectBody()
+                .jsonPath("$[0].stockItemId").isEqualTo(stockItem.getStockItemId())
+                .jsonPath("$[0].description").isEqualTo(stockItem.getDescription())
+                .jsonPath("$[0].supplierName").isEqualTo(stockItem.getSupplierName())
+                .jsonPath("$[0].quantitySold").isEqualTo(stockItem.getQuantitySold())
+                .jsonPath("$[0].sellingPrice").isEqualTo(stockItem.getSellingPrice())
+                .jsonPath("$[0].costPrice").isEqualTo(stockItem.getCostPrice());
+    }
     @Test
     void updateStockItem() {
         Publisher<StockItem> setup = stockItemRepository.deleteAll().thenMany(stockItemRepository.save(stockItem2));
