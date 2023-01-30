@@ -125,6 +125,26 @@ class StockItemServiceImplTest {
                 })
                 .verifyComplete();
     }
+    @Test
+    void getStockItemsBySupplierName() {
+        StockItem stockItem = buildStockItem();
+
+        String SUPPLIER_NAME = stockItem.getSupplierName();
+
+        when(stockItemRepository.findStockItemsBySupplierName(anyString())).thenReturn(Flux.just(stockItem));
+
+        Flux<StockItemDTO> stockItemDTO = stockItemService.getStockItemsBySupplierName(SUPPLIER_NAME);
+
+        StepVerifier.create(stockItemDTO)
+                .consumeNextWith(foundStock ->{
+                    assertEquals(stockItem.getStockItemId(), foundStock.getStockItemId());
+                    assertEquals(stockItem.getDescription(), foundStock.getDescription());
+                    assertEquals(stockItem.getSupplierName(), foundStock.getSupplierName());
+                    assertEquals(stockItem.getSellingPrice(), foundStock.getSellingPrice());
+                    assertEquals(stockItem.getCostPrice(), foundStock.getCostPrice());
+                })
+                .verifyComplete();
+    }
 
     @Test
     void deleteStockItem() {
