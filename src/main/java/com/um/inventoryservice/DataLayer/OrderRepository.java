@@ -12,7 +12,12 @@ public interface OrderRepository extends ReactiveMongoRepository<Order, String> 
     Flux<Order> findOrdersByStockItemId(String stockItemId);
     @Query("{'stockOrderDTOS.quantity': ?0}")
     Flux<Order> findOrdersByQuantitySold(int quantity);
-    @Query("{'stockOrderDTOS':?0}")
-    Flux<StockOrderDTO> findAllStockOrders();
+//    @Query("{'stockOrderDTOS':?0}")
+    Flux<StockOrderDTO> findAllStockOrderDTOs();
     Flux<Order> findOrdersByClientId(String clientId);
+
+    default Flux<StockOrderDTO> findAllStockOrderDTOS() {
+        return findAll()
+                .flatMapIterable(order -> order.getStockOrderDTOS());
+    }
 }

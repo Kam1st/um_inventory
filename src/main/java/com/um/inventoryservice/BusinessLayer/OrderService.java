@@ -11,6 +11,8 @@ public interface OrderService {
 
     Flux<OrderDTO> getAll();
     Flux<StockOrderDTO> getStockOrdersByQuantity();
+    Flux<StockOrderDTO> getStockOrderDTOs();
+
     Flux<OrderDTO> getOrdersByStockItemId(String stockItemId);
     Mono<OrderDTO> insertOrder(Mono<OrderDTO> orderDTOMono);
     Flux<OrderDTO> getOrdersByClientId(String clientId);
