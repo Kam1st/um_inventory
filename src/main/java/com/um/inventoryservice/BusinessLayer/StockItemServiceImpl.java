@@ -41,6 +41,12 @@ public class StockItemServiceImpl implements StockItemService{
     }
 
     @Override
+    public Flux<StockItemDTO> getStockItemsBySupplierName(String supplierName) {
+        return stockItemRepository.findStockItemsBySupplierName(supplierName)
+                .map(EntityDTOUtil::toDTO);
+    }
+
+    @Override
     public Mono<StockItemDTO> updateStockItem(String stockItemId, Mono<StockItemDTO> stockItemDTOMono){
         return stockItemRepository.findStockItemByStockItemId(stockItemId)
                 .flatMap(p -> stockItemDTOMono

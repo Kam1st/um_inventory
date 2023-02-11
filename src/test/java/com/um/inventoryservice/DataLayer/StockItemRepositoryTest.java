@@ -98,6 +98,25 @@ class StockItemRepositoryTest {
     }
 
     @Test
+    public void findStockItemsBySupplierName() {
+
+        StockItem stockItem = buildStockItem();
+
+        Publisher<StockItem> setup = stockItemRepository.deleteAll().thenMany(stockItemRepository.save(buildStockItem()));
+        Publisher<StockItem> find = stockItemRepository.findStockItemsBySupplierName(stockItem.getSupplierName());
+
+        StepVerifier
+                .create(setup)
+                .expectNextCount(1)
+                .verifyComplete();
+
+        StepVerifier
+                .create(find)
+                .expectNextCount(1)
+                .verifyComplete();
+    }
+
+    @Test
     public void insertStockItem() {
         StockItem stockItem = buildStockItem();
 
