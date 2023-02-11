@@ -13,6 +13,7 @@ import reactor.test.StepVerifier;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
@@ -113,7 +114,25 @@ class OrderControllerIntegrationTest {
                 .jsonPath("$[0].clientId").isEqualTo(order.getClientId())
                 .jsonPath("$[0].stockOrderDTOS").isNotEmpty();
     }
+    @Test
+    void getStockOrdersByQuantity() {
+        Publisher<Order> setup = orderRepository.deleteAll().thenMany(orderRepository.save(order));
 
+        StepVerifier
+                .create(setup)
+                .expectNextCount(1)
+                .verifyComplete();
+
+        webTestClient.get().uri("/orders/quantity")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBodyList(StockOrderDTO.class)
+                .hasSize(1)
+                .consumeWith(stockList -> {
+                    List<StockOrderDTO> orders = stockList.getResponseBody();
+                    assertThat(orders).extracting("quantity").contains(6);
+                });
+    }
     @Test
     void toStringBuilders() {
         System.out.println(Order.builder());
