@@ -29,16 +29,47 @@ public class DataSetupService implements CommandLineRunner {
         OrderDTO o1 = new OrderDTO("1", new ArrayList<>());
         OrderDTO o2 = new OrderDTO("2", new ArrayList<>());
         OrderDTO o3 = new OrderDTO("2", new ArrayList<>());
+        OrderDTO o4 = new OrderDTO("3", new ArrayList<>());
+        OrderDTO o5 = new OrderDTO("4", new ArrayList<>());
+        OrderDTO o6 = new OrderDTO("5", new ArrayList<>());
+        OrderDTO o7 = new OrderDTO("6", new ArrayList<>());
+        OrderDTO o8 = new OrderDTO("7", new ArrayList<>());
+        OrderDTO o9 = new OrderDTO("5", new ArrayList<>());
+        OrderDTO o10 = new OrderDTO("5", new ArrayList<>());
         StockOrderDTO so1 = new StockOrderDTO("2454544", "this is the test for stock item 1", 6);
         StockOrderDTO so2 = new StockOrderDTO("7486504", "this is the test for stock item 2", 7);
         StockOrderDTO so3 = new StockOrderDTO("9735693", "this is the test for stock item 3", 8);
         StockOrderDTO so4 = new StockOrderDTO("7486504", "this is the test for stock item 3 x2", 3);
+        StockOrderDTO so5 = new StockOrderDTO("2454544", "this is the test for stock item 5", 15);
+        StockOrderDTO so6 = new StockOrderDTO("7486504", "this is the test for stock item 6", 25);
+        StockOrderDTO so7 = new StockOrderDTO("1234567", "this is the test for stock item 7", 17);
+        StockOrderDTO so8 = new StockOrderDTO("2468024", "this is the test for stock item 8", 36);
+        StockOrderDTO so9 = new StockOrderDTO("1357913", "this is the test for stock item 9", 24);
+        StockOrderDTO so10 = new StockOrderDTO("9876543", "this is the test for stock item 10", 9);
+        StockOrderDTO so11 = new StockOrderDTO("9735693", "this is the test for stock item 11", 22);
+        StockOrderDTO so12 = new StockOrderDTO("7362908", "this is the test for stock item 12", 35);
+        StockOrderDTO so13 = new StockOrderDTO("7362908", "this is the test for stock item 13", 12);
+        StockOrderDTO so14 = new StockOrderDTO("7654321", "this is the test for stock item 14", 5);
+        StockOrderDTO so15 = new StockOrderDTO("2468024", "this is the test for stock item 15", 87);
+        StockOrderDTO so16 = new StockOrderDTO("1357913", "this is the test for stock item 16", 19);
         o1.getStockOrderDTOS().add(so1);
         o2.getStockOrderDTOS().add(so2);
         o3.getStockOrderDTOS().add(so3);
-        o3.getStockOrderDTOS().add(so4);
+        o4.getStockOrderDTOS().add(so4);
+        o5.getStockOrderDTOS().add(so5);
+        o5.getStockOrderDTOS().add(so12);
+        o6.getStockOrderDTOS().add(so6);
+        o7.getStockOrderDTOS().add(so7);
+        o8.getStockOrderDTOS().add(so8);
+        o8.getStockOrderDTOS().add(so9);
+        o9.getStockOrderDTOS().add(so10);
+        o10.getStockOrderDTOS().add(so11);
+        o9.getStockOrderDTOS().add(so13);
+        o9.getStockOrderDTOS().add(so14);
+        o6.getStockOrderDTOS().add(so15);
+        o10.getStockOrderDTOS().add(so16);
 
-        Flux.just(o1, o2, o3)
+        Flux.just(o1, o2, o3, o4, o5, o6, o7, o8, o9, o10)
                 .flatMap(p -> orderService.insertOrder(Mono.just(p))
                         .log(p.toString()))
                 .subscribe();
