@@ -15,4 +15,5 @@ public interface OrderService {
     public Flux<StockOrderDTO> getStockOrdersByQuantity();
     public Flux<StockOrderDTO> getStockOrdersByQuantityByClient(String clientId);
 
+
 }

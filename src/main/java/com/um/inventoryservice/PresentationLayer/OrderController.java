@@ -43,6 +43,7 @@ public class OrderController {
         return Mono.just(ResponseEntity.ok().body(stockOrders));
         }
 
+
     @GetMapping("/{clientId}/quantity")
     public Mono<ResponseEntity<Flux<StockOrderDTO>>> getStockOrdersByQuantityByClient(@PathVariable String clientId) {
         Flux<StockOrderDTO> stockOrders = orderService.getStockOrdersByQuantityByClient(clientId);

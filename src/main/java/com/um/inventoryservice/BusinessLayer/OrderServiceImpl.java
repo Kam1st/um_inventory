@@ -48,6 +48,7 @@ public class OrderServiceImpl implements OrderService {
                 .flatMapMany(Flux::fromIterable);
     }
 
+
     @Override
     public Flux<StockOrderDTO> getStockOrdersByQuantityByClient(String clientId) {
         return orderRepository.findOrdersByClientId(clientId)
