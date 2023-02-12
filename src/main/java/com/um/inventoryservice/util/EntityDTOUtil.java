@@ -89,7 +89,12 @@ public class EntityDTOUtil {
         return (String.format("%05d", number));
     }
 
-    public static String generateUUID(){
-        return UUID.randomUUID().toString();
+    public static String generateClientString() {
+        Random random = new Random();
+        int number = random.nextInt(9999);
+        return (String.format("%05d", number));
     }
+//    public static String generateUUID(){
+//        return UUID.randomUUID().toString();
+//    }
 }

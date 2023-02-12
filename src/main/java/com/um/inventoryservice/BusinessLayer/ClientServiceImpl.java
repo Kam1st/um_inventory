@@ -24,7 +24,7 @@ public class ClientServiceImpl implements ClientService{
     public Mono<ClientDTO> createClient(Mono<ClientDTO> clientDTOMono) {
         return clientDTOMono
                 .map(EntityDTOUtil::toEntity)
-                .doOnNext(e -> e.setClientId(EntityDTOUtil.generateUUID()))
+                .doOnNext(e -> e.setClientId(EntityDTOUtil.generateClientString()))
                 .flatMap((clientRepository::save))
                 .map(EntityDTOUtil::toDTO);
     }
