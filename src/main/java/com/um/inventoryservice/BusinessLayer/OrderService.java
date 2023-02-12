@@ -13,5 +13,7 @@ public interface OrderService {
     Mono<OrderDTO> insertOrder(Mono<OrderDTO> orderDTOMono);
     Flux<OrderDTO> getOrdersByClientId(String clientId);
     public Flux<StockOrderDTO> getStockOrdersByQuantity();
+    public Flux<StockOrderDTO> getStockOrdersByQuantityByClient(String clientId);
+
 
 }

@@ -8,6 +8,7 @@ import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWeb
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
@@ -133,6 +134,27 @@ class OrderControllerIntegrationTest {
                     assertThat(orders).extracting("quantity").contains(6);
                 });
     }
+
+    @Test
+    void getStockOrdersByQuantityByClient() {
+        Publisher<Order> setup = orderRepository.deleteAll().thenMany(orderRepository.save(order));
+
+        StepVerifier
+                .create(setup)
+                .expectNextCount(1)
+                .verifyComplete();
+
+        webTestClient.get().uri("/orders/297445493/quantity")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBodyList(StockOrderDTO.class)
+                .hasSize(1)
+                .consumeWith(stockList -> {
+                    List<StockOrderDTO> orders = stockList.getResponseBody();
+                    assertThat(orders).extracting("quantity").contains(6);
+                });
+    }
+
     @Test
     void toStringBuilders() {
         System.out.println(Order.builder());
