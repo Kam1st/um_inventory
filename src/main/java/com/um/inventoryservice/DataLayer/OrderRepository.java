@@ -16,4 +16,5 @@ public interface OrderRepository extends ReactiveMongoRepository<Order, String> 
         return findAll()
                 .flatMapIterable(order -> order.getStockOrderDTOS());
     }
+
 }
