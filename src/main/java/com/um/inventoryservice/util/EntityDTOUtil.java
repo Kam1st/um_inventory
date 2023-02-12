@@ -33,6 +33,7 @@ public class EntityDTOUtil {
 
     public static OrderDTO toDTO(Order order) {
         OrderDTO dto = new OrderDTO();
+        dto.setOrderId(order.getOrderId());
         dto.setStockOrderDTOS(order.getStockOrderDTOS());
         dto.setClientId(order.getClientId());
         return dto;
@@ -40,6 +41,7 @@ public class EntityDTOUtil {
 
     public static Order toEntity(OrderDTO dto) {
         Order order = new Order();
+        order.setOrderId(dto.getOrderId());
         order.setStockOrderDTOS(dto.getStockOrderDTOS());
         order.setClientId(dto.getClientId());
         return order;
@@ -86,6 +88,12 @@ public class EntityDTOUtil {
     public static String generateEmployeeString() {
         Random random = new Random();
         int number = random.nextInt(9999);
+        return (String.format("%05d", number));
+    }
+
+    public static String generateOrderString() {
+        Random random = new Random();
+        int number = random.nextInt(9999999);
         return (String.format("%05d", number));
     }
 
