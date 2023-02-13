@@ -11,7 +11,12 @@ import java.util.List;
 @AllArgsConstructor
 public class OrderDTO {
 
+    private String orderId;
     private String clientId;
     private List<StockOrderDTO> stockOrderDTOS;
 
+    public OrderDTO(String clientId, List<StockOrderDTO> stockOrderDTOS) {
+        this.clientId = clientId;
+        this.stockOrderDTOS = stockOrderDTOS;
+    }
 }

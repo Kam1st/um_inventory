@@ -10,7 +10,8 @@ import java.util.UUID;
 public class EntityDTOUtil {
 
     @Generated
-    public EntityDTOUtil(){}
+    public EntityDTOUtil() {
+    }
 
     public static StockItem toEntity(StockItemDTO dto) {
         StockItem stockItem = new StockItem();
@@ -33,6 +34,7 @@ public class EntityDTOUtil {
 
     public static OrderDTO toDTO(Order order) {
         OrderDTO dto = new OrderDTO();
+        dto.setOrderId(order.getOrderId());
         dto.setStockOrderDTOS(order.getStockOrderDTOS());
         dto.setClientId(order.getClientId());
         return dto;
@@ -40,10 +42,12 @@ public class EntityDTOUtil {
 
     public static Order toEntity(OrderDTO dto) {
         Order order = new Order();
+        order.setOrderId(dto.getOrderId());
         order.setStockOrderDTOS(dto.getStockOrderDTOS());
         order.setClientId(dto.getClientId());
         return order;
     }
+
     public static ClientDTO toDTO(Client client) {
         ClientDTO dto = new ClientDTO();
         dto.setClientId(client.getClientId());
@@ -53,6 +57,7 @@ public class EntityDTOUtil {
         dto.setClientPhone(client.getClientPhone());
         return dto;
     }
+
     public static Client toEntity(ClientDTO dto) {
         Client client = new Client();
         client.setClientId(dto.getClientId());
@@ -89,12 +94,16 @@ public class EntityDTOUtil {
         return (String.format("%05d", number));
     }
 
+    public static String generateOrderString() {
+        Random random = new Random();
+        int number = random.nextInt(9999999);
+        return (String.format("%05d", number));
+    }
+
     public static String generateClientString() {
         Random random = new Random();
         int number = random.nextInt(9999);
         return (String.format("%05d", number));
+
     }
-//    public static String generateUUID(){
-//        return UUID.randomUUID().toString();
-//    }
 }

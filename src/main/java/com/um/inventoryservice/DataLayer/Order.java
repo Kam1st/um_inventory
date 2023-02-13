@@ -15,6 +15,7 @@ public class Order {
     @Id
     private String id;
 
+    private String orderId;
     private String clientId;
     private List<StockOrderDTO> stockOrderDTOS;
 }
