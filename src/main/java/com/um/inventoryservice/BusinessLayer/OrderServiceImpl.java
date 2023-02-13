@@ -35,6 +35,7 @@ public class OrderServiceImpl implements OrderService {
     public Mono<OrderDTO> insertOrder(Mono<OrderDTO> orderDTOMono) {
         return orderDTOMono
                 .map(EntityDTOUtil::toEntity)
+                .doOnNext(o -> o.setOrderId(EntityDTOUtil.generateOrderString()))
                 .flatMap((orderRepository::save))
                 .map(EntityDTOUtil::toDTO);
     }
