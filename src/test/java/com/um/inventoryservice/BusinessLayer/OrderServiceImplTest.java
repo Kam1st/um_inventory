@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -30,6 +31,8 @@ class OrderServiceImplTest {
 
     OrderDTO orderDTO = buildOrderDTO();
 
+//    String ORDER_ID = orderDTO.getOrderId();
+
     @Test
     void getAllOrders() {
         when(orderRepository.findAll()).thenReturn(Flux.just(order));
@@ -44,6 +47,23 @@ class OrderServiceImplTest {
                 })
                 .verifyComplete();
     }
+
+//    @Test
+//    void getOrderById() {
+//        when(orderRepository.findOrderByOrderId(anyString())).thenReturn(Mono.just(order));
+//
+//        Mono <OrderDTO> orderDTOMono = orderService.getOrderById(ORDER_ID);
+//
+//        StepVerifier
+//                .create(orderDTOMono)
+//                .consumeNextWith(foundOrder -> {
+//                    assertEquals(foundOrder.getOrderId(), orderDTO.getOrderId());
+//                    assertEquals(foundOrder.getClientId(), orderDTO.getClientId());
+//                    assertEquals(foundOrder.getStockOrderDTOS(), orderDTO.getStockOrderDTOS());
+//                })
+//
+//                .verifyComplete();
+//    }
 
     @Test
     void getOrdersByStockItemId() {
@@ -88,7 +108,19 @@ class OrderServiceImplTest {
                 });
     }
 
-
+//    @Test
+//    void updateOrder() {
+//        when(orderRepository.save(any(Order.class))).thenReturn(Mono.just(order));
+//
+//        when(orderRepository.findOrderByOrderId(anyString())).thenReturn(Mono.just(order));
+//       orderService.updateOrder(ORDER_ID, (Mono.just(orderDTO)))
+//                .map(foundOrder -> {
+//                    assertEquals(foundOrder.getOrderId(), orderDTO.getOrderId());
+//                    assertEquals(foundOrder.getClientId(), orderDTO.getClientId());
+//                    assertEquals(foundOrder.getStockOrderDTOS(), orderDTO.getStockOrderDTOS());
+//                    return foundOrder;
+//                });
+//    }
 
     private Order buildOrder() {
         return Order.builder()
