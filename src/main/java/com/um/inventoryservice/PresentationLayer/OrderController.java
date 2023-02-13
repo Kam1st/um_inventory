@@ -22,7 +22,7 @@ public class OrderController {
         return orderService.getAll();
     }
 
-    @GetMapping("{orderId}")
+    @GetMapping("/{orderId}")
     public Mono<ResponseEntity<OrderDTO>> getOrderById(@PathVariable String orderId) {
         return orderService
                 .getOrderById(orderId)
@@ -45,7 +45,7 @@ public class OrderController {
         return orderService.getOrdersByClientId(clientId);
     }
 
-    @PutMapping("{orderId}")
+    @PutMapping("/{orderId}")
     public Mono<ResponseEntity<OrderDTO>> updateOrder(@PathVariable String orderId, @RequestBody Mono<OrderDTO> orderDTOMono) {
         return orderService.updateOrder(orderId, orderDTOMono)
                 .map(ResponseEntity::ok)

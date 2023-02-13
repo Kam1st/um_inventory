@@ -48,15 +48,14 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Mono<OrderDTO> updateOrder(String orderId, Mono<OrderDTO> orderDTOMono) {
-//        return orderRepository.findOrderByOrderId(orderId)
-//                .flatmap(e -> orderDTOMono
-//                        .map(EntityDTOUtil::toEntity)
-//                        .doOnNext(x -> x.setOrderId(e.getOrderId()))
-//                        .doOnNext(x -> x.setId(e.getId()))
-//                )
-//                .flatmap(orderRepository::save)
-//                .map(EntityDTOUtil::toDTO);
-        return null;
+        return orderRepository.findOrderByOrderId(orderId)
+                .flatMap(e -> orderDTOMono
+                        .map(EntityDTOUtil::toEntity)
+                        .doOnNext(x -> x.setOrderId(e.getOrderId()))
+                        .doOnNext(x -> x.setId(e.getId()))
+                )
+                .flatMap(orderRepository::save)
+                .map(EntityDTOUtil::toDTO);
     }
 
     @Override

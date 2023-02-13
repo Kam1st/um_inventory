@@ -26,7 +26,7 @@ class OrderControllerIntegrationTest {
 
     private final OrderDTO orderDTO = buildOrderDTO();
 
-//    String ORDER_ID = order.getOrderId();
+    String ORDER_ID = order.getOrderId();
 
     @Autowired
     private WebTestClient webTestClient;
@@ -78,28 +78,28 @@ class OrderControllerIntegrationTest {
                 });
     }
 
-//    @Test
-//    void getOrderById() {
-//        Publisher<Order> setup = orderRepository.deleteAll().thenMany(orderRepository.save(order);
-//
-//        StepVerifier
-//                .create(setup)
-//                .expectNextCount(1)
-//                .verifyComplete();
-//
-//        webTestClient
-//                .get()
-//                .uri("/orders/" + ORDER_ID)
-//                .accept(MediaType.APPLICATION_JSON)
-//                .exchange()
-//                .expectStatus().isOk()
-//                .expectHeader().contentType(MediaType.APPLICATION_JSON)
-//                .expectBody()
-//                .jsonPath("$.orderId").isEqualTo(orderDTO.getOrderId())
-//                .jsonPath("$.clientId").isEqualTo(orderDTO.getClientId())
+    @Test
+    void getOrderById() {
+        Publisher<Order> setup = orderRepository.deleteAll().thenMany(orderRepository.save(order));
+
+        StepVerifier
+                .create(setup)
+                .expectNextCount(1)
+                .verifyComplete();
+
+        webTestClient
+                .get()
+                .uri("/orders/" + ORDER_ID)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON)
+                .expectBody()
+                .jsonPath("$.orderId").isEqualTo(orderDTO.getOrderId())
+                .jsonPath("$.clientId").isEqualTo(orderDTO.getClientId());
 //                .jsonPath("$.stockOrderDTOS").isEqualTo(orderDTO.getStockOrderDTOS());
-//
-//    }
+
+    }
 
     @Test
     void getOrdersByStockItemId() {
@@ -143,28 +143,29 @@ class OrderControllerIntegrationTest {
                 .jsonPath("$[0].stockOrderDTOS").isNotEmpty();
     }
 
-//    @Test
-//    void updateOrder() {
-//        Publisher<Order> setup = orderRepository.deleteAll().thenMany(orderRepository.save(order));
-//
-//        StepVerifier
-//                .create(setup)
-//                .expectNextCount(1)
-//                .verifyComplete();
-//
-//        webTestClient
-//                .put()
-//                .uri("/orders/" + ORDER_ID)
-//                .body(Mono.just(orderDTO), OrderDTO.class)
-//                .accept(MediaType.APPLICATION_JSON)
-//                .exchange()
-//                .expectStatus().isOk()
-//                .expectHeader().contentType(MediaType.APPLICATION_JSON)
-//                .expectBody()
-//                .jsonPath("$.orderId").isEqualTo(orderDTO.getOrderId())
-//                .jsonPath("$.clientId").isEqualTo(orderDTO.getClientId())
+    @Test
+    void updateOrder() {
+        Publisher<Order> setup = orderRepository.deleteAll().thenMany(orderRepository.save(order));
+
+        StepVerifier
+                .create(setup)
+                .expectNextCount(1)
+                .verifyComplete();
+
+        webTestClient
+                .put()
+                .uri("/orders/" + ORDER_ID)
+                .body(Mono.just(orderDTO), OrderDTO.class)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON)
+                .expectBody()
+                .jsonPath("$.orderId").isEqualTo(orderDTO.getOrderId())
+                .jsonPath("$.clientId").isEqualTo(orderDTO.getClientId());
 //                .jsonPath("$.stockOrderDTOS").isEqualTo(orderDTO.getStockOrderDTOS());
-//    }
+    }
+
 
     @Test
     void getStockOrdersByQuantity() {
@@ -215,6 +216,7 @@ class OrderControllerIntegrationTest {
 
     private Order buildOrder() {
         return Order.builder()
+                .orderId("9753157")
                 .clientId("297445493")
                 .stockOrderDTOS(List.of(new StockOrderDTO("2454544", "this is the test for stock item 1", 6)))
                 .build();
@@ -222,6 +224,7 @@ class OrderControllerIntegrationTest {
 
     private OrderDTO buildOrderDTO() {
         return OrderDTO.builder()
+                .orderId("9753157")
                 .clientId("297445493")
                 .stockOrderDTOS(List.of(new StockOrderDTO("2454544", "this is the test for stock item 1", 6)))
                 .build();
