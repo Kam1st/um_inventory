@@ -2,7 +2,9 @@ package com.um.inventoryservice.PresentationLayer;
 
 import com.um.inventoryservice.BusinessLayer.OrderService;
 import com.um.inventoryservice.DataLayer.OrderDTO;
+import com.um.inventoryservice.DataLayer.StockOrderDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -35,6 +37,17 @@ public class OrderController {
         return orderService.getOrdersByClientId(clientId);
     }
 
+    @GetMapping("/quantity")
+    public Mono<ResponseEntity<Flux<StockOrderDTO>>> getStockOrdersByQuantity() {
+        Flux<StockOrderDTO> stockOrders = orderService.getStockOrdersByQuantity();
+        return Mono.just(ResponseEntity.ok().body(stockOrders));
+        }
 
+
+    @GetMapping("/{clientId}/quantity")
+    public Mono<ResponseEntity<Flux<StockOrderDTO>>> getStockOrdersByQuantityByClient(@PathVariable String clientId) {
+        Flux<StockOrderDTO> stockOrders = orderService.getStockOrdersByQuantityByClient(clientId);
+        return Mono.just(ResponseEntity.ok().body(stockOrders));
+    }
 
 }

@@ -10,7 +10,8 @@ import java.util.UUID;
 public class EntityDTOUtil {
 
     @Generated
-    public EntityDTOUtil(){}
+    public EntityDTOUtil() {
+    }
 
     public static StockItem toEntity(StockItemDTO dto) {
         StockItem stockItem = new StockItem();
@@ -46,6 +47,7 @@ public class EntityDTOUtil {
         order.setClientId(dto.getClientId());
         return order;
     }
+
     public static ClientDTO toDTO(Client client) {
         ClientDTO dto = new ClientDTO();
         dto.setClientId(client.getClientId());
@@ -55,6 +57,7 @@ public class EntityDTOUtil {
         dto.setClientPhone(client.getClientPhone());
         return dto;
     }
+
     public static Client toEntity(ClientDTO dto) {
         Client client = new Client();
         client.setClientId(dto.getClientId());
@@ -97,7 +100,10 @@ public class EntityDTOUtil {
         return (String.format("%05d", number));
     }
 
-    public static String generateUUID(){
-        return UUID.randomUUID().toString();
+    public static String generateClientString() {
+        Random random = new Random();
+        int number = random.nextInt(9999);
+        return (String.format("%05d", number));
+
     }
 }
