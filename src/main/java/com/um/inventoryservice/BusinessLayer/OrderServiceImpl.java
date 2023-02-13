@@ -20,6 +20,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public Mono<OrderDTO> getOrderById(String orderId) {
+        return orderRepository.findOrderByOrderId(orderId)
+                .map(EntityDTOUtil::toDTO);
+    }
+
+    @Override
     public Flux<OrderDTO> getOrdersByStockItemId(String stockItemId){
         return orderRepository.findOrdersByStockItemId(stockItemId)
                 .map(EntityDTOUtil::toDTO);
@@ -41,6 +47,18 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public Mono<OrderDTO> updateOrder(String orderId, Mono<OrderDTO> orderDTOMono) {
+        return orderRepository.findOrderByOrderId(orderId)
+                .flatMap(e -> orderDTOMono
+                        .map(EntityDTOUtil::toEntity)
+                        .doOnNext(x -> x.setOrderId(e.getOrderId()))
+                        .doOnNext(x -> x.setId(e.getId()))
+                )
+                .flatMap(orderRepository::save)
+                .map(EntityDTOUtil::toDTO);
+    }
+
+    @Override
     public Flux<StockOrderDTO> getStockOrdersByQuantity() {
         return orderRepository.findAll()
                 .flatMapIterable(order -> order.getStockOrderDTOS())
@@ -48,6 +66,7 @@ public class OrderServiceImpl implements OrderService {
                 .collectList()
                 .flatMapMany(Flux::fromIterable);
     }
+
 
 
     @Override
