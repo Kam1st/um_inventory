@@ -8,7 +8,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
-
+/*
 @Service
 public class DataSetupService implements CommandLineRunner {
 
@@ -126,3 +126,5 @@ public class DataSetupService implements CommandLineRunner {
                 .subscribe();
     }
 }
+
+*/
