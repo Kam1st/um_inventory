@@ -14,6 +14,7 @@ import reactor.test.StepVerifier;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
+import static org.springframework.test.util.AssertionErrors.assertEquals;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @AutoConfigureWebTestClient
@@ -22,6 +23,8 @@ class StockControllerIntegrationTest {
     StockItem stockItem = buildStockItem();
 
     StockItem stockItem2 = buildStockItem2();
+
+    StockItem stockItemLow = buildStockItemLOW();
     String STOCK_ID = stockItem.getStockItemId();
 
     StockItemDTO stockItemDTO = buildStockItemDTO();
@@ -208,6 +211,37 @@ class StockControllerIntegrationTest {
                 .expectBody();
     }
 
+    @Test
+    void getStockItemByIdLowQuantity() {
+        Publisher<StockItem> setup = stockItemRepository.deleteAll().thenMany(stockItemRepository.save(stockItemLow));
+
+        StepVerifier
+                .create(setup)
+                .expectNextCount(1)
+                .verifyComplete();
+
+        webTestClient
+                .get()
+                .uri("/stocks/" + STOCK_ID)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON)
+                .expectBody()
+                .jsonPath("$.stockItemId").isEqualTo(stockItemLow.getStockItemId())
+                .jsonPath("$.description").isEqualTo(stockItemLow.getDescription())
+                .jsonPath("$.quantitySold").isEqualTo(stockItemLow.getQuantitySold())
+                .jsonPath("$.sellingPrice").isEqualTo(stockItemLow.getSellingPrice())
+                .jsonPath("$.costPrice").isEqualTo(stockItemLow.getCostPrice())
+                .jsonPath("$.supplierName").isEqualTo(stockItemLow.getSupplierName())
+                .jsonPath("$.quantityInStock").isEqualTo(stockItemLow.getQuantityInStock())
+                .jsonPath("$.quantityInStock").value(quantityInStock -> {
+                    assertThat(quantityInStock).as("quantityInStock is below 25").isNotEqualTo(25);
+                    System.out.println("Alert: Quantity is below 25");
+                });
+
+    }
+
 
     @Test
     void toStringBuilders() {
@@ -236,6 +270,18 @@ class StockControllerIntegrationTest {
                 .costPrice(75.48)
                 .sellingPrice(75.99)
                 .quantityInStock(9723)
+                .build();
+    }
+
+    private StockItem buildStockItemLOW() {
+        return StockItem.builder()
+                .stockItemId("297445493")
+                .description("Test plumbing item")
+                .supplierName("Paul")
+                .quantitySold(23)
+                .costPrice(75.48)
+                .sellingPrice(75.99)
+                .quantityInStock(17)
                 .build();
     }
 

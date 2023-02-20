@@ -30,6 +30,8 @@ class ClientControllerIntegrationTest {
 
     String CLIENT_ID = client.getClientId();
 
+    String CLIENT_ID_NOT_FOUND = "not found";
+
     @Test
     void getAllClients() {
         Publisher<Client> setup = clientRepository.deleteAll().thenMany(clientRepository.save(client));
@@ -143,6 +145,22 @@ class ClientControllerIntegrationTest {
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody();
+    }
+    @Test
+    void getClientIdNotValid() {
+        Publisher<Client> setup = clientRepository.deleteAll().thenMany(clientRepository.save(client));
+
+        StepVerifier
+                .create(setup)
+                .expectNextCount(1)
+                .verifyComplete();
+
+        webTestClient
+                .get()
+                .uri("/clients/" + CLIENT_ID_NOT_FOUND)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isNotFound();
     }
 
     @Test

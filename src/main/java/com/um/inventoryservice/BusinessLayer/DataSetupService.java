@@ -28,7 +28,7 @@ public class DataSetupService implements CommandLineRunner {
 
         OrderDTO o1 = new OrderDTO("CL0001", new ArrayList<>());
         OrderDTO o2 = new OrderDTO("CL0002", new ArrayList<>());
-        OrderDTO o3 = new OrderDTO("Cl0002", new ArrayList<>());
+        OrderDTO o3 = new OrderDTO("CL0002", new ArrayList<>());
         OrderDTO o4 = new OrderDTO("CL0003", new ArrayList<>());
         OrderDTO o5 = new OrderDTO("CL0004", new ArrayList<>());
         OrderDTO o6 = new OrderDTO("CL0005", new ArrayList<>());

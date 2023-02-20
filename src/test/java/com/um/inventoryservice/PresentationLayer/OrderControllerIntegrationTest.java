@@ -28,6 +28,8 @@ class OrderControllerIntegrationTest {
 
     String ORDER_ID = order.getOrderId();
 
+    String ORDER_ID_NOT_VALID = "not valid";
+
     @Autowired
     private WebTestClient webTestClient;
 
@@ -206,7 +208,22 @@ class OrderControllerIntegrationTest {
                     assertThat(orders).extracting("quantity").contains(6);
                 });
     }
+    @Test
+    void getOrderIdNotValid() {
+        Publisher<Order> setup = orderRepository.deleteAll().thenMany(orderRepository.save(order));
 
+        StepVerifier
+                .create(setup)
+                .expectNextCount(1)
+                .verifyComplete();
+
+        webTestClient
+                .get()
+                .uri("/orders/" + ORDER_ID_NOT_VALID)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isNotFound();
+    }
     @Test
     void toStringBuilders() {
         System.out.println(Order.builder());

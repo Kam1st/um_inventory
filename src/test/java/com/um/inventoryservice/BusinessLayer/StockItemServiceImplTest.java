@@ -152,6 +152,20 @@ class StockItemServiceImplTest {
         verify(stockItemRepository, times(1)).deleteStockItemByStockItemId(STOCK_ID);
     }
 
+    @Test
+    void getStockItemIdNotFound() {
+        StockItem stockItem = buildStockItem();
+        String STOCK_ID = "01234";
+
+        when(stockItemRepository.findStockItemByStockItemId(anyString())).thenReturn(Mono.just(stockItem));
+
+        Mono<StockItemDTO> stockDTO = stockItemService.getStockItemById(STOCK_ID);
+
+        StepVerifier
+                .create(stockDTO)
+                .expectNextCount(1)
+                .expectError();
+    }
 
     private StockItem buildStockItem() {
         return StockItem.builder()

@@ -102,6 +102,21 @@ class EmployeeServiceImplTest {
         verify(employeeRepository, times(1)).deleteEmployeeByEmployeeId(EMPLOYEE_ID);
     }
 
+    @Test
+    void getEmployeeIdNotFound() {
+        Employee employee = buildEmployee();
+        String EMPLOYEE_ID = "01234";
+
+        when(employeeRepository.findEmployeeByEmployeeId(anyString())).thenReturn(Mono.just(employee));
+
+        Mono<EmployeeDTO> empDTO = employeeService.getEmployeeById(EMPLOYEE_ID);
+
+        StepVerifier
+                .create(empDTO)
+                .expectNextCount(1)
+                .expectError();
+    }
+
 
     private Employee buildEmployee() {
         return Employee.builder()
