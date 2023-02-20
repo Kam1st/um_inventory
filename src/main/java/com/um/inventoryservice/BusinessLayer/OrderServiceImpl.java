@@ -59,9 +59,20 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+//    public Flux<StockOrderDTO> getStockOrdersByQuantity() {
+//        return orderRepository.findAll()
+//                .flatMapIterable(order -> order.getStockOrderDTOS())
+//                .sort((o1, o2) -> Integer.compare(o2.getQuantity(), o1.getQuantity()))
+//                .collectList()
+//                .flatMapMany(Flux::fromIterable);
+//    }
+
     public Flux<StockOrderDTO> getStockOrdersByQuantity() {
         return orderRepository.findAll()
                 .flatMapIterable(order -> order.getStockOrderDTOS())
+                .groupBy(stockOrder -> stockOrder.getStockItemId())
+                .flatMap(groupedFlux -> groupedFlux
+                        .reduce((s1, s2) -> new StockOrderDTO(s1.getStockItemId(), s1.getDescription(), s1.getQuantity() + s2.getQuantity())))
                 .sort((o1, o2) -> Integer.compare(o2.getQuantity(), o1.getQuantity()))
                 .collectList()
                 .flatMapMany(Flux::fromIterable);
